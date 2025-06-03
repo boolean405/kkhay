@@ -44,10 +44,10 @@ const signup = async (req, res, next) => {
     );
 
     htmlFile = htmlFile.replace("{verificationCode}", code);
-    htmlFile = htmlFile.replace(
-      "{logoImage}",
-      `${process.env.SERVER_URL}/image/logo`
-    );
+    // htmlFile = htmlFile.replace(
+    //   "{logoImage}",
+    //   `${process.env.SERVER_URL}/image/logo`
+    // );
 
     // Send Email
     await sendEmail(email, "[K Khay Account] Verify Your Account", htmlFile);

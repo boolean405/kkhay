@@ -60,10 +60,10 @@ const verify = async (req, res, next) => {
       "utf8"
     );
 
-    htmlFile = htmlFile.replace(
-      "{verifiedImage}",
-      `${process.env.SERVER_URL}/image/verified`
-    );
+    // htmlFile = htmlFile.replace(
+    //   "{verifiedImage}",
+    //   `${process.env.SERVER_URL}/image/verified`
+    // );
 
     await sendEmail(
       user.email,
