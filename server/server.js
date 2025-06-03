@@ -23,7 +23,7 @@ connectDB();
 app.use(rateLimiter);
 app.use(express.json());
 app.use(cookieParser());
-app.use(reqMethodLog);
+// app.use(reqMethodLog);
 app.use(credentials);
 app.use(cors(corsOptions));
 app.use(fileUpload());
