@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const UserSchema = {
   signup: Joi.object({
@@ -85,4 +85,4 @@ const UserSchema = {
   },
 };
 
-module.exports = UserSchema;
+export { UserSchema };

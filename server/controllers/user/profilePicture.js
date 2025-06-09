@@ -1,11 +1,10 @@
-const UserDB = require("../../models/user");
-const PictureDB = require("../../models/picture");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import PictureDB from "../../models/picture.js";
+import resError from "../../utils/resError.js";
 
 const profilePicture = async (req, res, next) => {
-  const userId = req.userId;
-
   try {
+    const userId = req.userId;
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
 
@@ -20,4 +19,4 @@ const profilePicture = async (req, res, next) => {
   }
 };
 
-module.exports = profilePicture;
+export default profilePicture;

@@ -4,4 +4,4 @@ const resError = (status, message) => {
   return error;
 };
 
-module.exports = resError;
+export default resError;

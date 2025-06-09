@@ -1,17 +1,17 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const UserDB = require("../../models/user");
-const Encoder = require("../../utils/encoder");
-const resJson = require("../../utils/resJson");
-const resError = require("../../utils/resError");
-const VerificationDB = require("../../models/verification");
-const sendEmail = require("../../utils/sendEmail");
+import UserDB from "../../models/user.js";
+import Encoder from "../../utils/encoder.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
+import sendEmail from "../../utils/sendEmail.js";
+import VerifyDB from "../../models/verify.js";
 
-const signup = async (req, res, next) => {
-  const { name, username, email, password } = req.body;
-
+const register = async (req, res, next) => {
   try {
+    const { name, username, email, password } = req.body;
     // Check if user already exist or not
     if (await UserDB.findOne({ email }))
       throw resError(409, "Email already exists!");
@@ -19,8 +19,7 @@ const signup = async (req, res, next) => {
       throw resError(409, "Username already exists!");
 
     // Delete old verification
-    if (await VerificationDB.findOne({ email }))
-      await VerificationDB.deleteOne({ email });
+    if (await VerifyDB.findOne({ email })) await VerifyDB.deleteOne({ email });
 
     // Generate new token
     const code = Math.floor(100000 + Math.random() * 900000).toString(); // e.g. "482391"
@@ -28,7 +27,7 @@ const signup = async (req, res, next) => {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
     // Create new verification
-    await VerificationDB.create({
+    await VerifyDB.create({
       name,
       username,
       email,
@@ -38,10 +37,13 @@ const signup = async (req, res, next) => {
     });
 
     // Load the HTML file
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     let htmlFile = fs.readFileSync(
       path.join(__dirname, "../../assets/html/verifySignup.html"),
       "utf8"
     );
+    console.log(htmlFile);
 
     htmlFile = htmlFile.replace("{verificationCode}", code);
     // htmlFile = htmlFile.replace(
@@ -50,7 +52,7 @@ const signup = async (req, res, next) => {
     // );
 
     // Send Email
-    await sendEmail(email, "[K Khay Account] Verify Your Account", htmlFile);
+    await sendEmail(email, "[K Khay] Verify Your Account", htmlFile);
 
     resJson(res, 200, "Verification code email sent.");
   } catch (error) {
@@ -59,4 +61,4 @@ const signup = async (req, res, next) => {
   }
 };
 
-module.exports = signup;
+export default register;

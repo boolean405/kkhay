@@ -4,4 +4,4 @@ const reqMethodLog = (req, res, next) => {
   next();
 };
 
-module.exports = reqMethodLog;
+export default reqMethodLog;

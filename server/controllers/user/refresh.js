@@ -1,12 +1,11 @@
-const UserDB = require("../../models/user");
-const resJson = require("../../utils/resJson");
-const Token = require("../../utils/token");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import resJson from "../../utils/resJson.js";
+import Token from "../../utils/token.js";
+import resError from "../../utils/resError.js";
 
 const refresh = async (req, res, next) => {
-  const decodedId = req.decodedId;
-
   try {
+    const decodedId = req.decodedId;
     const accessToken = Token.makeAccessToken({
       id: decodedId.toString(),
     });
@@ -24,4 +23,4 @@ const refresh = async (req, res, next) => {
   }
 };
 
-module.exports = refresh;
+export default refresh;

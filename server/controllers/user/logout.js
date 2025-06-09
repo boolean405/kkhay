@@ -1,10 +1,9 @@
-const UserDB = require("../../models/user");
-const resJson = require("../../utils/resJson");
+import UserDB from "../../models/user.js";
+import resJson from "../../utils/resJson.js";
 
 const signout = async (req, res, next) => {
-  const decodedId = req.decodedId;
-
   try {
+    const decodedId = req.decodedId;
     const user = await UserDB.findById(decodedId);
     if (!user) {
       res.clearCookie("refreshToken", {
@@ -31,4 +30,4 @@ const signout = async (req, res, next) => {
   }
 };
 
-module.exports = signout;
+export default signout;

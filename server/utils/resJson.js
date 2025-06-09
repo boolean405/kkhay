@@ -6,4 +6,4 @@ const resJson = (res, status, message, result) => {
   });
 };
 
-module.exports = resJson;
+export default resJson;

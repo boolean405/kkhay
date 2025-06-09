@@ -1,12 +1,11 @@
-const UserDB = require("../../models/user");
-const resJson = require("../../utils/resJson");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
 
 const changeName = async (req, res, next) => {
-  const userId = req.userId;
-  const name = req.body.name;
-
   try {
+    const userId = req.userId;
+    const name = req.body.name;
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
 
@@ -23,4 +22,4 @@ const changeName = async (req, res, next) => {
   }
 };
 
-module.exports = changeName;
+export default changeName;

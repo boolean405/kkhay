@@ -1,14 +1,13 @@
-const UserDB = require("../../models/user");
-const PictureDB = require("../../models/picture");
-const resJson = require("../../utils/resJson");
-const resError = require("../../utils/resError");
-const Encoder = require("../../utils/encoder");
+import UserDB from "../../models/user.js";
+import PictureDB from "../../models/picture.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
+import Encoder from "../../utils/encoder.js";
 
 const deleteAccount = async (req, res, next) => {
-  const userId = req.userId;
-  const password = req.body.password;
-
   try {
+    const userId = req.userId;
+    const password = req.body.password;
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
 
@@ -30,4 +29,4 @@ const deleteAccount = async (req, res, next) => {
   }
 };
 
-module.exports = deleteAccount;
+export default deleteAccount;

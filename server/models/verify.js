@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const VerificationSchema = new Schema(
+const verifySchema = new Schema(
   {
     name: { type: String, require: true },
     username: { type: String, require: true },
@@ -15,4 +15,4 @@ const VerificationSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("verification", VerificationSchema);
+export default mongoose.model("Verify", verifySchema);

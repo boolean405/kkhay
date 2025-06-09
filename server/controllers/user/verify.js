@@ -1,17 +1,17 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const UserDB = require("../../models/user");
-const VerificationDB = require("../../models/verification");
-const resJson = require("../../utils/resJson");
-const sendEmail = require("../../utils/sendEmail");
-const resError = require("../../utils/resError");
-const Token = require("../../utils/token");
+import UserDB from "../../models/user.js";
+import VerificationDB from "../../models/verify.js";
+import Token from "../../utils/token.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
+import sendEmail from "../../utils/sendEmail.js";
 
 const verify = async (req, res, next) => {
-  const { email, code } = req.body;
-
   try {
+    const { email, code } = req.body;
     if (!(await VerificationDB.findOne({ email })))
       throw resError(400, "Invalid email!");
 
@@ -55,6 +55,8 @@ const verify = async (req, res, next) => {
 
     // Send verified email
     // Load the HTML file
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     let htmlFile = fs.readFileSync(
       path.join(__dirname, "../../assets/html/successSignup.html"),
       "utf8"
@@ -65,11 +67,7 @@ const verify = async (req, res, next) => {
     //   `${process.env.SERVER_URL}/image/verified`
     // );
 
-    await sendEmail(
-      user.email,
-      "[K Khay Account] Successfully Verified",
-      htmlFile
-    );
+    await sendEmail(user.email, "[K Khay] Successfully Verified", htmlFile);
 
     resJson(res, 200, "Success signup.", user);
   } catch (error) {
@@ -78,4 +76,4 @@ const verify = async (req, res, next) => {
   }
 };
 
-module.exports = verify;
+export default verify;

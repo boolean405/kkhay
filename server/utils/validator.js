@@ -1,5 +1,5 @@
-const resError = require("./resError");
-const Token = require("./token");
+import resError from "./resError.js";
+import Token from "./token.js";
 
 const validateBody = (schema) => {
   return (req, res, next) => {
@@ -54,10 +54,10 @@ const validateQuery = (schema) => {
   };
 };
 
-module.exports = {
+export {
   validateBody,
   validateToken,
   validateCookie,
-  validateQuery,
   validateParam,
+  validateQuery,
 };

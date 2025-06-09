@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
+import { hashSync, compareSync } from "bcryptjs";
 
 const Encoder = {
-  encode: (password) => bcrypt.hashSync(password, 10),
-  compare: (plain, hash) => bcrypt.compareSync(plain, hash),
+  encode: (password) => hashSync(password, 10),
+  compare: (plain, hash) => compareSync(plain, hash),
 };
 
-module.exports = Encoder;
+export default Encoder;

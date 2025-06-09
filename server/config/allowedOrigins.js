@@ -12,4 +12,4 @@ const extraOrigins = process.env.EXTRA_ALLOWED_ORIGINS
 // Merge and remove duplicates
 const allowedOrigins = [...new Set([...baseOrigins, ...extraOrigins])];
 
-module.exports = allowedOrigins;
+export default allowedOrigins;

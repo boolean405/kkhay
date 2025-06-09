@@ -1,11 +1,10 @@
-const UserDB = require("../../models/user");
-const resJson = require("../../utils/resJson");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
 
-const getUserDetails = async (req, res, next) => {
-  const userId = req.userId;
-
+const getUser = async (req, res, next) => {
   try {
+    const userId = req.userId;
     const user = await UserDB.findById(userId).select("-password");
     if (!user) throw resError(404, "User not found!");
 
@@ -16,4 +15,6 @@ const getUserDetails = async (req, res, next) => {
   }
 };
 
-module.exports = getUserDetails;
+export default getUser;
+
+

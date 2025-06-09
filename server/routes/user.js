@@ -1,33 +1,34 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const UserSchema = require("../utils/schema");
-const signup = require("../controllers/user/signup");
-const signin = require("../controllers/user/signin");
-const refresh = require("../controllers/user/refresh");
-const signout = require("../controllers/user/signout");
-const getUserDetails = require("../controllers/user/getUserDetails");
-const deleteAccount = require("../controllers/user/deleteAccount");
-const uploadPicture = require("../controllers/user/uploadPicture");
-const profilePicture = require("../controllers/user/profilePicture");
-const changePassword = require("../controllers/user/changePassword");
-const changeName = require("../controllers/user/changeName");
-const verify = require("../controllers/user/verify");
-const changeUsername = require("../controllers/user/changeUsername");
-const getPicture = require("../controllers/user/getPicture");
+import { UserSchema } from "../utils/schema.js";
+import register from "../controllers/user/register.js";
+import login from "../controllers/user/login.js";
+import refresh from "../controllers/user/refresh.js";
+import logout from "../controllers/user/logout.js";
+import getUser from "../controllers/user/getUser.js";
+import deleteAccount from "../controllers/user/deleteAccount.js";
+import uploadPicture from "../controllers/user/uploadPicture.js";
+import profilePicture from "../controllers/user/profilePicture.js";
+import changePassword from "../controllers/user/changePassword.js";
+import changeName from "../controllers/user/changeName.js";
+import verify from "../controllers/user/verify.js";
+import changeUsername from "../controllers/user/changeUsername.js";
+import getPicture from "../controllers/user/getPicture.js";
 
-const {
+import {
   validateBody,
   validateToken,
   validateCookie,
   validateParam,
-} = require("../utils/validator");
+  validateQuery,
+} from "../utils/validator.js";
 
-router.post("/signup", validateBody(UserSchema.signup), signup);
-router.post("/signin", validateBody(UserSchema.signin), signin);
-router.post("/signout", validateCookie(), signout);
+router.post("/register", validateBody(UserSchema.register), register);
+router.post("/login", validateBody(UserSchema.login), login);
+router.post("/logout", validateCookie(), logout);
 router.get("/refresh", validateCookie(), refresh);
-router.get("/", validateToken(), getUserDetails);
+router.get("/", validateToken(), getUser);
 router.post("/verify", validateBody(UserSchema.verify), verify);
 router.delete(
   "/deleteaccount",
@@ -69,4 +70,4 @@ router.patch(
   changePassword
 );
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -10,11 +10,11 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async (to, subject, html) => {
   return transporter.sendMail({
-    from: `"K Khay Account" <${process.env.EMAIL_USER}>`,
+    from: `"K Khay" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,
   });
 };
 
-module.exports = sendEmail;
+export default sendEmail;

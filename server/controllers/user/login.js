@@ -1,13 +1,12 @@
-const UserDB = require("../../models/user");
-const Encoder = require("../../utils/encoder");
-const resJson = require("../../utils/resJson");
-const Token = require("../../utils/token");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import Encoder from "../../utils/encoder.js";
+import resJson from "../../utils/resJson.js";
+import Token from "../../utils/token.js";
+import resError from "../../utils/resError.js";
 
-const signin = async (req, res, next) => {
-  const { email, password } = req.body;
-
+const login = async (req, res, next) => {
   try {
+    const { email, password } = req.body;
     const existUser = await UserDB.findOne({ email });
     if (!existUser) throw resError(404, "User not found!");
 
@@ -31,7 +30,7 @@ const signin = async (req, res, next) => {
     const isLocalhost =
       req.hostname === "localhost" || req.hostname === "127.0.0.1";
 
-    res.cookie("refreshToken", refreshToken, { 
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "None",
       secure: !isLocalhost,
@@ -45,4 +44,4 @@ const signin = async (req, res, next) => {
   }
 };
 
-module.exports = signin;
+export default login;

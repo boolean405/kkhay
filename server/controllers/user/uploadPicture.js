@@ -1,9 +1,9 @@
-const sharp = require("sharp");
+import sharp from "sharp";
 
-const UserDB = require("../../models/user");
-const PictureDB = require("../../models/picture");
-const resJson = require("../../utils/resJson");
-const resError = require("../../utils/resError");
+import UserDB from "../../models/user.js";
+import PictureDB from "../../models/picture.js";
+import resJson from "../../utils/resJson.js";
+import resError from "../../utils/resError.js";
 
 const uploadPicture = async (req, res, next) => {
   const userId = req.userId;
@@ -48,4 +48,4 @@ const uploadPicture = async (req, res, next) => {
   }
 };
 
-module.exports = uploadPicture;
+export default uploadPicture;
