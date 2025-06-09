@@ -1,15 +1,15 @@
 import Joi from "joi";
 
 export const UserSchema = {
-  signup: Joi.object({
+  register: Joi.object({
     name: Joi.string()
       .regex(/^[A-Za-z\s]+$/)
-      .min(4)
+      .min(1)
       .max(20)
       .required(),
     username: Joi.string()
       .pattern(/^[a-z0-9]+$/)
-      .min(4)
+      .min(5)
       .max(20)
       .required(),
     email: Joi.string()
@@ -19,11 +19,11 @@ export const UserSchema = {
       })
       .required(),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{4,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
   }),
 
-  signin: Joi.object({
+  login: Joi.object({
     email: Joi.string()
       .email({
         minDomainSegments: 2,
@@ -31,14 +31,14 @@ export const UserSchema = {
       })
       .required(),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{4,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
   }),
 
   changeName: Joi.object({
     name: Joi.string()
       .regex(/^[A-Za-z\s]+$/)
-      .min(4)
+      .min(1)
       .max(20)
       .required(),
   }),
@@ -46,23 +46,23 @@ export const UserSchema = {
   changeUsername: Joi.object({
     username: Joi.string()
       .pattern(/^[a-z0-9]+$/)
-      .min(4)
+      .min(5)
       .max(20)
       .required(),
   }),
 
   changePassword: Joi.object({
     oldPassword: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{4,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
     newPassword: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{4,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
   }),
 
   deleteAccount: Joi.object({
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{4,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
   }),
 

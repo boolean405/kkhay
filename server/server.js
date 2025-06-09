@@ -18,6 +18,7 @@ import notFoundHandler from "./middlewares/notFoundHandler.js";
 // Routes
 import userRoute from "./routes/user.js";
 import imageRoute from "./routes/image.js";
+import publicRoute from "./routes/public.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,6 +33,7 @@ app.use(cors(corsOptions));
 app.use(fileUpload());
 
 app.use("/api/user", userRoute);
+app.use("/api/public", publicRoute);
 app.use("/image", imageRoute);
 
 // Connect to MongoDB
