@@ -7,8 +7,8 @@ const rateLimiter = rateLimit({
   legacyHeaders: false,
   handler: (req, res, next) => {
     res.status(429).json({
-      con: false,
-      msg: "Too many requests, please try again later!",
+      status: false,
+      message: "Too many requests, please try again later!",
     });
   },
 });
