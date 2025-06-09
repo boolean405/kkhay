@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const UserSchema = {
+export const UserSchema = {
   signup: Joi.object({
     name: Joi.string()
       .regex(/^[A-Za-z\s]+$/)
@@ -84,5 +84,3 @@ const UserSchema = {
     }),
   },
 };
-
-export { UserSchema };
