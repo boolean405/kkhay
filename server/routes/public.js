@@ -1,13 +1,13 @@
 import express from "express";
 const router = express.Router();
 
-import resJson from "../utils/resJson";
+import resJson from "../utils/resJson.js";
 
 const publicData = {
   status: true,
   message: "Success",
   result: {
-    name: "K Khay",
+    name: "Success get public data",
   },
 };
 
