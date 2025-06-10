@@ -3,7 +3,7 @@ import Joi from "joi";
 export const UserSchema = {
   register: Joi.object({
     name: Joi.string()
-      .regex(/^[A-Za-z\s]+$/)
+      .pattern(/^[\p{L}\s]+$/u)
       .min(1)
       .max(20)
       .required(),
@@ -12,24 +12,14 @@ export const UserSchema = {
       .min(5)
       .max(20)
       .required(),
-    email: Joi.string()
-      .email({
-        minDomainSegments: 2,
-        tlds: { allow: ["com", "net", "me", "org"] },
-      })
-      .required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
   }),
 
   login: Joi.object({
-    email: Joi.string()
-      .email({
-        minDomainSegments: 2,
-        tlds: { allow: ["com", "net", "me", "org"] },
-      })
-      .required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
       .required(),
@@ -74,6 +64,11 @@ export const UserSchema = {
         tlds: { allow: ["com", "net", "me", "org"] },
       })
       .required(),
+  }),
+
+  uploadPhoto: Joi.object({
+    profilePhoto: Joi.string(),
+    coverPhoto: Joi.string(),
   }),
 
   params: {

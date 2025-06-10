@@ -22,6 +22,27 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    profilePhoto: {
+      type: String,
+    },
+    coverPhoto: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
     refreshToken: {
       type: String,
       select: false,
@@ -34,7 +55,7 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    picture: { type: Schema.Types.ObjectId, ref: "picture" },
+    // picture: { type: Schema.Types.ObjectId, ref: "picture" },
   },
   {
     timestamps: true,

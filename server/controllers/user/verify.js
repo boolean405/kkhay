@@ -8,6 +8,7 @@ import Token from "../../utils/token.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
+import resCookie from "../../utils/sesCookie.js";
 
 const verify = async (req, res, next) => {
   try {
@@ -40,16 +41,6 @@ const verify = async (req, res, next) => {
       accessToken,
     });
 
-    const isLocalhost =
-      req.hostname === "localhost" || req.hostname === "127.0.0.1";
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: !isLocalhost,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
-
     await VerificationDB.findByIdAndDelete(record._id);
     const user = await UserDB.findById(newUser._id).select("-password");
 
@@ -69,7 +60,8 @@ const verify = async (req, res, next) => {
 
     await sendEmail(user.email, "[K Khay] Successfully Verified", htmlFile);
 
-    resJson(res, 200, "Success signup.", user);
+    resCookie(req, res, "refreshToken", refreshToken);
+    resJson(res, 201, "Success signup.", user);
   } catch (error) {
     error.status = error.status;
     next(error);

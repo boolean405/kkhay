@@ -3,6 +3,7 @@ import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import Token from "../../utils/token.js";
 import resError from "../../utils/resError.js";
+import resCookie from "../../utils/sesCookie.js";
 
 const login = async (req, res, next) => {
   try {
@@ -27,15 +28,7 @@ const login = async (req, res, next) => {
 
     const user = await UserDB.findById(existUser._id).select("-password");
 
-    const isLocalhost =
-      req.hostname === "localhost" || req.hostname === "127.0.0.1";
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: !isLocalhost,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
+    resCookie(req, res, "refreshToken", refreshToken);
 
     resJson(res, 200, "Success signin.", user);
   } catch (error) {

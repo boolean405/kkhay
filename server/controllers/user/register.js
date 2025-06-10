@@ -54,7 +54,7 @@ const register = async (req, res, next) => {
     // Send Email
     await sendEmail(email, "[K Khay] Verify Your Account", htmlFile);
 
-    resJson(res, 200, "Verification code email sent.");
+    resJson(res, 201, "Verification code email sent.");
   } catch (error) {
     error.status = error.status;
     next(error);

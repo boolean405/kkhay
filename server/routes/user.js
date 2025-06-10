@@ -15,6 +15,7 @@ import changeName from "../controllers/user/changeName.js";
 import verify from "../controllers/user/verify.js";
 import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
+import uploadPhoto from "../controllers/user/uploadPhoto.js";
 
 import {
   validateBody,
@@ -68,6 +69,13 @@ router.patch(
   validateToken(),
   validateBody(UserSchema.changePassword),
   changePassword
+);
+
+router.patch(
+  "/uploadphoto",
+  validateToken(),
+  validateBody(UserSchema.uploadPhoto),
+  uploadPhoto
 );
 
 export default router;
