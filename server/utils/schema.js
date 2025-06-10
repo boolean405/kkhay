@@ -84,3 +84,12 @@ export const UserSchema = {
     }),
   },
 };
+
+export const MessageSchema = {
+  message: Joi.object({
+    sender: Joi.string().length(24).hex().required(),
+    receiver: Joi.string().length(24).hex().required(),
+    type: Joi.string().valid("text", "image", "video").required(),
+    content: Joi.string().min(1).required(),
+  }),
+};

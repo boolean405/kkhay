@@ -54,10 +54,19 @@ const validateQuery = (schema) => {
   };
 };
 
+const validateMessage = (schema, data) => {
+  const { error, value } = schema.validate(data);
+  if (error) {
+    return { valid: false, error: error.details[0].message };
+  }
+  return { valid: true, value };
+};
+
 export {
   validateBody,
   validateToken,
   validateCookie,
   validateParam,
   validateQuery,
+  validateMessage,
 };

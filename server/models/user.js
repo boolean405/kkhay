@@ -34,11 +34,11 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    picture: { type: Schema.Types.ObjectId, ref: "Picture" },
+    picture: { type: Schema.Types.ObjectId, ref: "picture" },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model("user", userSchema);

@@ -3,10 +3,10 @@ const { Schema } = mongoose;
 
 const verifySchema = new Schema(
   {
-    name: { type: String, require: true },
-    username: { type: String, require: true },
+    name: { type: String },
+    username: { type: String },
     email: { type: String, require: true },
-    password: { type: String, require: true },
+    password: { type: String },
     code: { type: String, require: true },
     expiresAt: { type: Date, require: true },
   },
@@ -15,4 +15,4 @@ const verifySchema = new Schema(
   }
 );
 
-export default mongoose.model("Verify", verifySchema);
+export default mongoose.model("verify", verifySchema);
