@@ -12,7 +12,6 @@ import uploadPicture from "../controllers/user/uploadPicture.js";
 import profilePicture from "../controllers/user/profilePicture.js";
 import changePassword from "../controllers/user/changePassword.js";
 import changeName from "../controllers/user/changeName.js";
-import verify from "../controllers/user/verify.js";
 import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
 import uploadPhoto from "../controllers/user/uploadPhoto.js";
@@ -22,6 +21,7 @@ import existUsername from "../controllers/user/existUsername.js";
 import forgotPassword from "../controllers/user/forgotPassword.js";
 import resetPassword from "../controllers/user/resetPassword.js";
 import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
+import registerVerify from "../controllers/user/registerVerify.js";
 
 import {
   validateBody,
@@ -43,7 +43,11 @@ router.post("/login", validateBody(UserSchema.login), login);
 router.post("/logout", validateCookie(), logout);
 router.get("/refresh", validateCookie(), refresh);
 router.get("/", validateToken(), getUser);
-router.post("/verify", validateBody(UserSchema.verify), verify);
+router.post(
+  "/register-verify",
+  validateBody(UserSchema.registerVerify),
+  registerVerify
+);
 router.delete(
   "/delete-account",
   validateToken(),

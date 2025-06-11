@@ -3,20 +3,20 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import UserDB from "../../models/user.js";
-import VerificationDB from "../../models/verify.js";
+import verifyDB from "../../models/verify.js";
 import Token from "../../utils/token.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
 import resCookie from "../../utils/resCookie.js";
 
-const verify = async (req, res, next) => {
+const registerVerify = async (req, res, next) => {
   try {
     const { email, code } = req.body;
-    if (!(await VerificationDB.findOne({ email })))
+    if (!(await verifyDB.findOne({ email })))
       throw resError(400, "Invalid email!");
 
-    const record = await VerificationDB.findOne({ code });
+    const record = await verifyDB.findOne({ code });
     if (!record) throw resError(400, "Invalid verification code!");
 
     if (record.expiresAt < new Date())
@@ -40,7 +40,7 @@ const verify = async (req, res, next) => {
       refreshToken,
     });
 
-    await VerificationDB.findByIdAndDelete(record._id);
+    await verifyDB.findByIdAndDelete(record._id);
     const user = await UserDB.findById(newUser._id).select("-password");
 
     // Send verified email
@@ -60,11 +60,11 @@ const verify = async (req, res, next) => {
     await sendEmail(user.email, "[K Khay] Successfully Verified", htmlFile);
 
     resCookie(req, res, "refreshToken", refreshToken);
-    resJson(res, 201, "Success signup.", { user, accessToken });
+    resJson(res, 201, "Success register.", { user, accessToken });
   } catch (error) {
     error.status = error.status;
     next(error);
   }
 };
 
-export default verify;
+export default registerVerify;

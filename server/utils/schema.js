@@ -56,7 +56,7 @@ export const UserSchema = {
       .required(),
   }),
 
-  verify: Joi.object({
+  registerVerify: Joi.object({
     code: Joi.string().required(),
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
   }),
