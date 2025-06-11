@@ -2,6 +2,7 @@ import UserDB from "../../models/user.js";
 import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
+import Token from "../../utils/token.js";
 
 const resetPassword = async (req, res, next) => {
   try {
@@ -16,9 +17,43 @@ const resetPassword = async (req, res, next) => {
       password: newHashedPassword,
     });
 
-    const updatedUser = await UserDB.findById(user._id).select("-password");
+    const refreshToken = Token.makeRefreshToken({
+      id: user._id.toString(),
+    });
+    const accessToken = Token.makeAccessToken({
+      id: user._id.toString(),
+    });
 
-    resJson(res, 200, "Success changed password.", updatedUser);
+    await UserDB.findByIdAndUpdate(user._id, {
+      refreshToken,
+    });
+
+    // Send verified email
+    // Load the HTML file
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    let htmlFile = fs.readFileSync(
+      path.join(__dirname, "../../assets/html/successResetPassword.html"),
+      "utf8"
+    );
+
+    // htmlFile = htmlFile.replace(
+    //   "{verifiedImage}",
+    //   `${process.env.SERVER_URL}/image/verified`
+    // );
+
+    const updatedUser = await UserDB.findById(user._id).select("-password");
+    await sendEmail(
+      updatedUser.email,
+      "[K Khay] Password Successfully Changed",
+      htmlFile
+    );
+
+    resCookie(req, res, "refreshToken", refreshToken);
+    resJson(res, 200, "Success changed password.", {
+      user: updatedUser,
+      accessToken,
+    });
   } catch (error) {
     error.status = error.status;
     next(error);
