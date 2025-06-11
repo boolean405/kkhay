@@ -23,13 +23,12 @@ const login = async (req, res, next) => {
 
     await UserDB.findByIdAndUpdate(existUser._id, {
       refreshToken,
-      accessToken,
     });
 
     const user = await UserDB.findById(existUser._id).select("-password");
 
     resCookie(req, res, "refreshToken", refreshToken);
-    resJson(res, 200, "Success signin.", user);
+    resJson(res, 200, "Success signin.", { user, accessToken });
   } catch (error) {
     error.status = error.status;
     next(error);

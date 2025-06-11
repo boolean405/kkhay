@@ -5,7 +5,7 @@ const resCookie = (req, res, key, value) => {
     httpOnly: true,
     sameSite: isLocalhost ? "Lax" : "None",
     secure: !isLocalhost,
-    maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 day
   });
 };
 
