@@ -19,6 +19,7 @@ import uploadPhoto from "../controllers/user/uploadPhoto.js";
 import editProfile from "../controllers/user/editProfile.js";
 import existEmail from "../controllers/user/existEmail.js";
 import existUsername from "../controllers/user/existUsername.js";
+import forgotPassword from "../controllers/user/forgotPassword.js";
 
 import {
   validateBody,
@@ -93,6 +94,12 @@ router.patch(
   validateToken(),
   validateBody(UserSchema.editProfile),
   editProfile
+);
+
+router.post(
+  "/forgot-password",
+  validateBody(UserSchema.forgotPassword),
+  forgotPassword
 );
 
 export default router;

@@ -14,7 +14,7 @@ export const UserSchema = {
       .required(),
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
   }),
 
@@ -89,6 +89,10 @@ export const UserSchema = {
       .min(5)
       .max(20)
       .required(),
+  }),
+
+  forgotPassword: Joi.object({
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
   }),
 
   params: {
