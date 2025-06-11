@@ -6,7 +6,7 @@ const getExistUser = async (req, res, next) => {
   try {
     const email = req.query.email;
     const user = await UserDB.findOne({ email }).select("-password");
-    if (!user) throw resError(404, "User not found!");
+    if (!user) return resJson(res, 404, "User not found!", null);
 
     resJson(res, 200, "Success get exist user.", user);
   } catch (error) {
