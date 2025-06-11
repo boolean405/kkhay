@@ -95,6 +95,11 @@ export const UserSchema = {
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
   }),
 
+  forgotPasswordVerify: Joi.object({
+    code: Joi.string().required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
+  }),
+
   params: {
     userId: Joi.object({
       userId: Joi.string()

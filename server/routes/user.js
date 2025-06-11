@@ -21,6 +21,7 @@ import existEmail from "../controllers/user/existEmail.js";
 import existUsername from "../controllers/user/existUsername.js";
 import forgotPassword from "../controllers/user/forgotPassword.js";
 import resetPassword from "../controllers/user/resetPassword.js";
+import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
 import {
   validateBody,
@@ -101,6 +102,12 @@ router.post(
   "/forgot-password",
   validateBody(UserSchema.forgotPassword),
   forgotPassword
+);
+
+router.post(
+  "/forgot-password-verify",
+  validateBody(UserSchema.forgotPasswordVerify),
+  forgotPasswordVerify
 );
 
 router.patch(
