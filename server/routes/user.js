@@ -16,6 +16,7 @@ import verify from "../controllers/user/verify.js";
 import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
 import uploadPhoto from "../controllers/user/uploadPhoto.js";
+import editProfile from "../controllers/user/editProfile.js";
 
 import {
   validateBody,
@@ -32,7 +33,7 @@ router.get("/refresh", validateCookie(), refresh);
 router.get("/", validateToken(), getUser);
 router.post("/verify", validateBody(UserSchema.verify), verify);
 router.delete(
-  "/deleteaccount",
+  "/delete-account",
   validateToken(),
   validateBody(UserSchema.deleteAccount),
   deleteAccount
@@ -51,31 +52,38 @@ router
   .post(uploadPicture);
 
 router.patch(
-  "/changename",
+  "/change-name",
   validateToken(),
   validateBody(UserSchema.changeName),
   changeName
 );
 
 router.patch(
-  "/changeusername",
+  "/change-username",
   validateToken(),
   validateBody(UserSchema.changeUsername),
   changeUsername
 );
 
 router.patch(
-  "/changepassword",
+  "/change-password",
   validateToken(),
   validateBody(UserSchema.changePassword),
   changePassword
 );
 
 router.patch(
-  "/uploadphoto",
+  "/upload-photo",
   validateToken(),
   validateBody(UserSchema.uploadPhoto),
   uploadPhoto
+);
+
+router.patch(
+  "/edit-profile",
+  validateToken(),
+  validateBody(UserSchema.editProfile),
+  editProfile
 );
 
 export default router;

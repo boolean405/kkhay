@@ -4,16 +4,19 @@ import resError from "../../utils/resError.js";
 import cloudinary from "../../config/cloudinary.js";
 import getPublicIdFromUrl from "../../utils/getPublicIdFromUrl.js";
 
-const uploadPhoto = async (req, res, next) => {
+const editProfile = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { profilePhoto, coverPhoto } = req.body;
+    const { name, username, profilePhoto, coverPhoto } = req.body;
 
-    if (!profilePhoto && !coverPhoto)
-      throw resError(400, "Photo is required to upload!");
+    if (!profilePhoto && !coverPhoto && !name && !username)
+      throw resError(400, "Need to edit something!");
 
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
+
+    if (await UserDB.findOne({ username }))
+      throw resError(409, "Username already exist!");
 
     const editedUser = {};
 
@@ -35,6 +38,9 @@ const uploadPhoto = async (req, res, next) => {
       return result.secure_url;
     };
 
+    // update user
+    if (name) editedUser.name = name;
+    if (username) editedUser.username = username;
     if (profilePhoto) {
       editedUser.profilePhoto = await uploadImage(
         user.profilePhoto,
@@ -42,7 +48,6 @@ const uploadPhoto = async (req, res, next) => {
         "kkhay/users/profilephoto"
       );
     }
-
     if (coverPhoto) {
       editedUser.coverPhoto = await uploadImage(
         user.coverPhoto,
@@ -55,10 +60,10 @@ const uploadPhoto = async (req, res, next) => {
 
     const updatedUser = await UserDB.findById(userId).select("-password");
 
-    resJson(res, 200, "Success upload photo", updatedUser);
+    resJson(res, 200, "Success edited user profile", updatedUser);
   } catch (error) {
     next(error);
   }
 };
 
-export default uploadPhoto;
+export default editProfile;

@@ -3,7 +3,7 @@ import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import Token from "../../utils/token.js";
 import resError from "../../utils/resError.js";
-import resCookie from "../../utils/sesCookie.js";
+import resCookie from "../../utils/resCookie.js";
 
 const login = async (req, res, next) => {
   try {
@@ -29,7 +29,6 @@ const login = async (req, res, next) => {
     const user = await UserDB.findById(existUser._id).select("-password");
 
     resCookie(req, res, "refreshToken", refreshToken);
-
     resJson(res, 200, "Success signin.", user);
   } catch (error) {
     error.status = error.status;

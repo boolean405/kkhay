@@ -47,9 +47,6 @@ const userSchema = new Schema(
       type: String,
       select: false,
     },
-    accessToken: {
-      type: String,
-    },
     role: {
       type: String,
       enum: ["user", "admin"],

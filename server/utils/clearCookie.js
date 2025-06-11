@@ -1,12 +1,11 @@
-const resCookie = (req, res, key, value) => {
+const clearCookie = (req, res, key) => {
   const isLocalhost =
     req.hostname === "localhost" || req.hostname === "127.0.0.1";
-  res.cookie(key, value, {
+  res.clearCookie(key, {
     httpOnly: true,
     sameSite: isLocalhost ? "Lax" : "None",
     secure: !isLocalhost,
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 };
 
-export default resCookie;
+export default clearCookie;

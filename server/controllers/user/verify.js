@@ -8,7 +8,7 @@ import Token from "../../utils/token.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
-import resCookie from "../../utils/sesCookie.js";
+import resCookie from "../../utils/resCookie.js";
 
 const verify = async (req, res, next) => {
   try {
@@ -38,7 +38,6 @@ const verify = async (req, res, next) => {
 
     await UserDB.findByIdAndUpdate(newUser._id, {
       refreshToken,
-      accessToken,
     });
 
     await VerificationDB.findByIdAndDelete(record._id);
@@ -61,7 +60,7 @@ const verify = async (req, res, next) => {
     await sendEmail(user.email, "[K Khay] Successfully Verified", htmlFile);
 
     resCookie(req, res, "refreshToken", refreshToken);
-    resJson(res, 201, "Success signup.", user);
+    resJson(res, 201, "Success signup.", { user, accessToken });
   } catch (error) {
     error.status = error.status;
     next(error);

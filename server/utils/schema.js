@@ -27,7 +27,7 @@ export const UserSchema = {
 
   changeName: Joi.object({
     name: Joi.string()
-      .regex(/^[A-Za-z\s]+$/)
+      .pattern(/^[\p{L}\s]+$/u)
       .min(1)
       .max(20)
       .required(),
@@ -58,15 +58,23 @@ export const UserSchema = {
 
   verify: Joi.object({
     code: Joi.string().required(),
-    email: Joi.string()
-      .email({
-        minDomainSegments: 2,
-        tlds: { allow: ["com", "net", "me", "org"] },
-      })
-      .required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
   }),
 
   uploadPhoto: Joi.object({
+    profilePhoto: Joi.string(),
+    coverPhoto: Joi.string(),
+  }),
+
+  editProfile: Joi.object({
+    name: Joi.string()
+      .pattern(/^[\p{L}\p{M}\s]+$/u)
+      .min(1)
+      .max(20),
+    username: Joi.string()
+      .pattern(/^[a-z0-9]+$/)
+      .min(5)
+      .max(20),
     profilePhoto: Joi.string(),
     coverPhoto: Joi.string(),
   }),

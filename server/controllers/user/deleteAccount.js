@@ -1,8 +1,8 @@
 import UserDB from "../../models/user.js";
-import PictureDB from "../../models/picture.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import Encoder from "../../utils/encoder.js";
+import clearCookie from "../../utils/clearCookie.js";
 
 const deleteAccount = async (req, res, next) => {
   try {
@@ -15,13 +15,8 @@ const deleteAccount = async (req, res, next) => {
       throw resError(401, "Incorrect password to delete account!");
 
     await UserDB.findByIdAndDelete(user._id);
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-    });
-    await PictureDB.findByIdAndDelete(user.picture);
 
+    clearCookie(req, res, "refreshToken");
     resJson(res, 200, "Success deleted account.");
   } catch (error) {
     error.status = error.status;
