@@ -1,54 +1,65 @@
 import UserDB from "../../models/user.js";
-import PictureDB from "../../models/picture.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import cloudinary from "../../config/cloudinary.js";
+import getPublicIdFromUrl from "../../utils/getPublicIdFromUrl.js";
 
 const uploadPhoto = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const profilePhoto = req.body.profilePhoto;
-    const coverPhoto = req.body.coverPhoto;
+    const { profilePhoto, coverPhoto } = req.body;
+
+    if (!profilePhoto && !coverPhoto) {
+      throw resError(400, "Photo is required to upload!");
+    }
 
     const user = await UserDB.findById(userId);
-    if (!user) throw resError(404, "User not found!");
+    if (!user) {
+      throw resError(404, "User not found!");
+    }
 
-    if (!profilePhoto && !coverPhoto)
-      throw resError(400, "Photo is required to upload!");
+    const updateFields = {};
 
-    // Upload photos to cloudinary
-    if (profilePhoto) {
-      // Delete old photo
-      if (user.profilePhoto && user.profilePhoto.includes("cloudinary")) {
-        const publicId = user.profilePhoto.split("/").pop().split(".")[0];
-        await cloudinary.uploader.destroy(publicId);
+    const uploadImage = async (oldUrl, newData, folder) => {
+      // Remove old image if exists and is hosted on Cloudinary
+      if (oldUrl && oldUrl.includes("cloudinary")) {
+        const publicId = getPublicIdFromUrl(oldUrl);
+        if (publicId) await cloudinary.uploader.destroy(publicId);
       }
-      // Upload new photo
-      const uploadResult = await cloudinary.uploader.upload(profilePhoto);
-      await UserDB.findByIdAndUpdate(user._id, {
-        profilePhoto: uploadResult.secure_url,
+
+      // Custom file name
+      const public_id = `/${user.username}_${Date.now()}`;
+
+      // Upload new image
+      const result = await cloudinary.uploader.upload(newData, {
+        folder,
+        public_id,
       });
+      return result.secure_url;
+    };
+
+    if (profilePhoto) {
+      updateFields.profilePhoto = await uploadImage(
+        user.profilePhoto,
+        profilePhoto,
+        "kkhay/users/profilephoto"
+      );
     }
 
     if (coverPhoto) {
-      // Delete old photo
-      if (user.coverPhoto && user.coverPhoto.includes("cloudinary")) {
-        const publicId = user.coverPhoto.split("/").pop().split(".")[0];
-        await cloudinary.uploader.destroy(publicId);
-      }
-      // Upload new photo
-      const uploadResult = await cloudinary.uploader.upload(coverPhoto);
-      await UserDB.findByIdAndUpdate(user._id, {
-        coverPhoto: uploadResult.secure_url,
-      });
+      updateFields.coverPhoto = await uploadImage(
+        user.coverPhoto,
+        coverPhoto,
+        "kkhay/users/coverphoto"
+      );
     }
 
-    // Save to DB
-    const updatedUser = await UserDB.findById(user._id).select("-password");
+    await UserDB.findByIdAndUpdate(userId, updateFields);
+
+    const updatedUser = await UserDB.findById(userId).select("-password");
 
     resJson(res, 200, "Success upload photo", updatedUser);
   } catch (error) {
-    error.status = error.status;
     next(error);
   }
 };

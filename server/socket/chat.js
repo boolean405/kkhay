@@ -6,8 +6,6 @@ import { MessageSchema } from "../utils/schema.js";
 
 // In-memory store for active users
 const memoryStore = new Map();
-console.log(memoryStore);
-
 
 // Socket Initialization
 export const initialize = async (io, socket) => {
@@ -29,7 +27,6 @@ const registerLiveUser = async (socketId, user) => {
 
 // Handle incoming chat message
 const handleIncomingMessage = async (io, socket, data) => {
-  
   const { valid, error, value } = validateMessage(MessageSchema.message, {
     ...data,
     sender: socket.currentUserId.toString(),
