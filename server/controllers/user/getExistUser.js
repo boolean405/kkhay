@@ -5,10 +5,8 @@ import resError from "../../utils/resError.js";
 const getExistUser = async (req, res, next) => {
   try {
     const email = req.query.email;
-    console.log(email);
-    
     const user = await UserDB.findOne({ email }).select("-password");
-    if (!user) return resJson(res, 202, "There is no exist user.",null);
+    if (!user) throw resError(404, "User not found!");
 
     resJson(res, 200, "Success get exist user.", user);
   } catch (error) {
