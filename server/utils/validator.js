@@ -48,8 +48,9 @@ const validateParam = (schema, param) => {
 
 const validateQuery = (schema) => {
   return (req, res, next) => {
-    const { error } = schema.validate(req.query);
+    const { error, value } = schema.validate(req.query);
     if (error) return next(resError(400, error.details[0].message));
+    // req.query = value;
     next();
   };
 };

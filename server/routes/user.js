@@ -17,7 +17,7 @@ import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
 import uploadPhoto from "../controllers/user/uploadPhoto.js";
 import editProfile from "../controllers/user/editProfile.js";
-import getExistUser from "../controllers/user/existUser.js";
+import getExistUser from "../controllers/user/getExistUser.js";
 
 import {
   validateBody,
