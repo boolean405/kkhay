@@ -1,8 +1,15 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import UserDB from "../../models/user.js";
 import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import Token from "../../utils/token.js";
+import sendEmail from "../../utils/sendEmail.js";
+import VerifyDB from "../../models/verify.js";
+import resCookie from "../../utils/resCookie.js";
 
 const resetPassword = async (req, res, next) => {
   try {
@@ -48,6 +55,7 @@ const resetPassword = async (req, res, next) => {
       "[K Khay] Password Successfully Changed",
       htmlFile
     );
+    await VerifyDB.deleteOne({ email });
 
     resCookie(req, res, "refreshToken", refreshToken);
     resJson(res, 200, "Success changed password.", {

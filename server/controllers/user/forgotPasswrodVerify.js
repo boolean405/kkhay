@@ -1,14 +1,6 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-
-import UserDB from "../../models/user.js";
 import verifyDB from "../../models/verify.js";
-import Token from "../../utils/token.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
-import sendEmail from "../../utils/sendEmail.js";
-import resCookie from "../../utils/resCookie.js";
 
 const forgotPasswordVerify = async (req, res, next) => {
   try {
