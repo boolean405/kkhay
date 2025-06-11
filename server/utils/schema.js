@@ -21,7 +21,7 @@ export const UserSchema = {
   login: Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
   }),
 
@@ -43,16 +43,16 @@ export const UserSchema = {
 
   changePassword: Joi.object({
     oldPassword: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
     newPassword: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
   }),
 
   deleteAccount: Joi.object({
     password: Joi.string()
-      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{5,30}$'))
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
   }),
 
@@ -102,6 +102,13 @@ export const UserSchema = {
         .required(),
     }),
   },
+
+  resetPassword: Joi.object({
+    email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
+    newPassword: Joi.string()
+      .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
+      .required(),
+  }),
 };
 
 export const MessageSchema = {

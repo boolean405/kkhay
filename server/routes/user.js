@@ -20,6 +20,7 @@ import editProfile from "../controllers/user/editProfile.js";
 import existEmail from "../controllers/user/existEmail.js";
 import existUsername from "../controllers/user/existUsername.js";
 import forgotPassword from "../controllers/user/forgotPassword.js";
+import resetPassword from "../controllers/user/resetPassword.js";
 
 import {
   validateBody,
@@ -100,6 +101,12 @@ router.post(
   "/forgot-password",
   validateBody(UserSchema.forgotPassword),
   forgotPassword
+);
+
+router.patch(
+  "/reset-password",
+  validateBody(UserSchema.resetPassword),
+  resetPassword
 );
 
 export default router;
