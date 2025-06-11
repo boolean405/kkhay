@@ -79,8 +79,16 @@ export const UserSchema = {
     coverPhoto: Joi.string(),
   }),
 
-  existUser: Joi.object({
+  existEmail: Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
+  }),
+
+  existUsername: Joi.object({
+    username: Joi.string()
+      .pattern(/^[a-z0-9]+$/)
+      .min(5)
+      .max(20)
+      .required(),
   }),
 
   params: {

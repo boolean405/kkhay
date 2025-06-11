@@ -17,7 +17,8 @@ import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
 import uploadPhoto from "../controllers/user/uploadPhoto.js";
 import editProfile from "../controllers/user/editProfile.js";
-import getExistUser from "../controllers/user/getExistUser.js";
+import existEmail from "../controllers/user/existEmail.js";
+import existUsername from "../controllers/user/existUsername.js";
 
 import {
   validateBody,
@@ -27,7 +28,13 @@ import {
   validateQuery,
 } from "../utils/validator.js";
 
-router.get("/exist-user", validateQuery(UserSchema.existUser), getExistUser);
+router.get("/exist-email", validateQuery(UserSchema.existEmail), existEmail);
+router.get(
+  "/exist-username",
+  validateQuery(UserSchema.existUsername),
+  existUsername
+);
+
 router.post("/register", validateBody(UserSchema.register), register);
 router.post("/login", validateBody(UserSchema.login), login);
 router.post("/logout", validateCookie(), logout);
