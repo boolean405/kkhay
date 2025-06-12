@@ -7,10 +7,11 @@ import getPublicIdFromUrl from "../../utils/getPublicIdFromUrl.js";
 const uploadPhoto = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { profilePhoto, coverPhoto } = req.body;
+    const files = req.files;
+    if (!files) throw resError(400, "Photo is required to upload!");
 
-    if (!profilePhoto && !coverPhoto)
-      throw resError(400, "Photo is required to upload!");
+    const profilePhoto = files.profilePhoto;
+    const coverPhoto = files.coverPhoto;
 
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
