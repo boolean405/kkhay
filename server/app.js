@@ -18,13 +18,13 @@ import publicRoute from "./routes/public.js";
 const app = express();
 
 // Global middleware
-app.use(rateLimiter);
-app.use(express.json());
-app.use(cookieParser());
-app.use(reqMethodLog);
-app.use(credentials);
-app.use(cors(corsOptions));
-app.use(fileUpload());
+app.use(reqMethodLog); // Log incoming requests (1st)
+app.use(rateLimiter); // Rate limiting early (before body parsing)
+app.use(credentials); // Set Access-Control-Allow-Credentials header
+app.use(cors(corsOptions)); // Must follow `credentials`
+app.use(express.json()); // Parse JSON body
+app.use(cookieParser()); // Parse cookies
+app.use(fileUpload({ useTempFiles: true })); // File uploads
 
 // API routes
 app.use("/api/user", userRoute);

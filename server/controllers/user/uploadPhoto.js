@@ -17,7 +17,7 @@ const uploadPhoto = async (req, res, next) => {
 
     const editedUser = {};
 
-    const uploadImage = async (oldUrl, newData, folder) => {
+    const uploadImage = async (oldUrl, fileData, folder) => {
       // Remove old image if exists and is hosted on Cloudinary
       if (oldUrl && oldUrl.includes("cloudinary")) {
         const publicId = getPublicIdFromUrl(oldUrl);
@@ -29,7 +29,7 @@ const uploadPhoto = async (req, res, next) => {
       const public_id = `/${user.username}_${Date.now()}`;
 
       // Upload new image
-      const result = await cloudinary.uploader.upload(newData, {
+      const result = await cloudinary.uploader.upload(fileData.tempFilePath, {
         folder,
         public_id,
       });
