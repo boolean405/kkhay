@@ -59,7 +59,7 @@ const uploadPhoto = async (req, res, next) => {
 
     const updatedUser = await UserDB.findById(userId).select("-password");
     const accessToken = Token.makeAccessToken({
-      id: newUser._id.toString(),
+      id: updatedUser._id.toString(),
     });
     resJson(res, 200, "Success upload photo", {
       user: updatedUser,
