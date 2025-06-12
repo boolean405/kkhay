@@ -21,7 +21,8 @@ const uploadPhoto = async (req, res, next) => {
       // Remove old image if exists and is hosted on Cloudinary
       if (oldUrl && oldUrl.includes("cloudinary")) {
         const publicId = getPublicIdFromUrl(oldUrl);
-        if (publicId) await cloudinary.uploader.destroy(publicId);
+        if (!publicId) throw resError(400, "Failed to parse public ID!");
+        await cloudinary.uploader.destroy(publicId);
       }
 
       // Custom file name
@@ -32,6 +33,7 @@ const uploadPhoto = async (req, res, next) => {
         folder,
         public_id,
       });
+      if (!result) throw resError(400, "Cloudinary upload failed!");
       return result.secure_url;
     };
 
