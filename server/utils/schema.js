@@ -61,10 +61,10 @@ export const UserSchema = {
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
   }),
 
-  uploadPhoto: Joi.object({
-    profilePhoto: Joi.string(),
-    coverPhoto: Joi.string(),
-  }),
+  // uploadPhoto: Joi.object({
+  //   profilePhoto: Joi.string(),
+  //   coverPhoto: Joi.string(),
+  // }),
 
   editProfile: Joi.object({
     name: Joi.string()
