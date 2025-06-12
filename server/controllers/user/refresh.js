@@ -18,10 +18,10 @@ const refresh = async (req, res, next) => {
     });
 
     await UserDB.findByIdAndUpdate(user._id, { refreshToken });
-    // const updatedUser = await UserDB.findById(user._id).select("-password");
+    const updatedUser = await UserDB.findById(user._id).select("-password");
 
     resCookie(req, res, "refreshToken", refreshToken);
-    resJson(res, 200, "Success refresh.", { accessToken });
+    resJson(res, 200, "Success refresh.", { user: updatedUser, accessToken });
   } catch (error) {
     error.status = error.status;
     next(error);
