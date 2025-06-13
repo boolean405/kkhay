@@ -3,7 +3,7 @@ import Joi from "joi";
 export const UserSchema = {
   register: Joi.object({
     name: Joi.string()
-      .pattern(/^[\p{L}\s]+$/u)
+      .pattern(/^[A-Za-z ]+$/)
       .min(1)
       .max(20)
       .required(),
@@ -27,7 +27,7 @@ export const UserSchema = {
 
   changeName: Joi.object({
     name: Joi.string()
-      .pattern(/^[\p{L}\s]+$/u)
+      .pattern(/^[A-Za-z ]+$/)
       .min(1)
       .max(20)
       .required(),
@@ -66,9 +66,9 @@ export const UserSchema = {
   //   coverPhoto: Joi.string(),
   // }),
 
-  editProfile: Joi.object({
+  changeNames: Joi.object({
     name: Joi.string()
-      .pattern(/^[\p{L}\p{M}\s]+$/u)
+      .pattern(/^[A-Za-z ]+$/)
       .min(1)
       .max(20),
     username: Joi.string()

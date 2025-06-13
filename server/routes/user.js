@@ -15,13 +15,13 @@ import changeName from "../controllers/user/changeName.js";
 import changeUsername from "../controllers/user/changeUsername.js";
 import getPicture from "../controllers/user/getPicture.js";
 import uploadPhoto from "../controllers/user/uploadPhoto.js";
-import editProfile from "../controllers/user/editProfile.js";
 import existEmail from "../controllers/user/existEmail.js";
 import existUsername from "../controllers/user/existUsername.js";
 import forgotPassword from "../controllers/user/forgotPassword.js";
 import resetPassword from "../controllers/user/resetPassword.js";
-import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
+import changeNames from "../controllers/user/changeNames.js";
 import registerVerify from "../controllers/user/registerVerify.js";
+import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
 import {
   validateBody,
@@ -96,10 +96,10 @@ router.patch(
 );
 
 router.patch(
-  "/edit-profile",
+  "/change-names",
   validateToken(),
-  // validateBody(UserSchema.editProfile),
-  editProfile
+  validateBody(UserSchema.changeNames),
+  changeNames
 );
 
 router.post(

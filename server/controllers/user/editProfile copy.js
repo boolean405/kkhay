@@ -7,16 +7,16 @@ const editProfile = async (req, res, next) => {
   try {
     const userId = req.userId;
     const body = req.body;
-    const files = req.files;
-    if (!body && !files) throw resError(400, "Need to edit something!");
+    // const files = req.files;
+    if (!body) throw resError(400, "Need to edit something!");
 
     const currentUser = await UserDB.findById(userId);
     if (!currentUser) throw resError(404, "User not found!");
 
     const name = body.name;
     const username = body.username;
-    const profilePhoto = files.profilePhoto;
-    const coverPhoto = files.coverPhoto;
+    // const profilePhoto = files.profilePhoto;
+    // const coverPhoto = files.coverPhoto;
 
     if (username && username !== currentUser.username)
       if (await UserDB.findOne({ username }))
@@ -28,26 +28,25 @@ const editProfile = async (req, res, next) => {
     if (name) editedUser.name = name;
     if (username) editedUser.username = username;
 
-    if (profilePhoto) {
-      editedUser.profilePhoto = await uploadImage(
-        currentUser.profilePhoto,
-        profilePhoto,
-        "kkhay/users/profilephoto"
-      );
-    }
-    if (coverPhoto) {
-      editedUser.coverPhoto = await uploadImage(
-        currentUser.coverPhoto,
-        coverPhoto,
-        "kkhay/users/coverphoto"
-      );
-    }
-
+    // if (profilePhoto) {
+    //   editedUser.profilePhoto = await uploadImage(
+    //     currentUser,
+    //     profilePhoto,
+    //     "kkhay/users/profilephoto"
+    //   );
+    // }
+    // if (coverPhoto) {
+    //   editedUser.coverPhoto = await uploadImage(
+    //     currentUser,
+    //     coverPhoto,
+    //     "kkhay/users/coverphoto"
+    //   );
+    // }
     await UserDB.findByIdAndUpdate(currentUser._id, editedUser);
 
     const user = await UserDB.findById(currentUser._id).select("-password");
 
-    resJson(res, 200, "Success edited currentUser profile", { user });
+    resJson(res, 200, "Success edited profile", { user });
   } catch (error) {
     next(error);
   }
