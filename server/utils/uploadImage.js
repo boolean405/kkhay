@@ -1,10 +1,11 @@
+import fs from "fs/promises";
 import cloudinary from "../config/cloudinary.js";
 import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 
-const uploadImage = async (oldUrl, fileData, folder) => {
+const uploadImage = async (user, fileData, folder) => {
   // Remove old image if exists and is hosted on Cloudinary
-  if (oldUrl && oldUrl.includes("cloudinary")) {
-    const publicId = getPublicIdFromUrl(oldUrl);
+  if (user.profilePhoto && user.profilePhoto.includes("cloudinary")) {
+    const publicId = getPublicIdFromUrl(user.profilePhoto);
     if (!publicId) throw resError(400, "Failed to parse public ID!");
     await cloudinary.uploader.destroy(publicId);
   }
@@ -18,6 +19,8 @@ const uploadImage = async (oldUrl, fileData, folder) => {
     public_id,
   });
   if (!result) throw resError(400, "Cloudinary upload failed!");
+  await fs.unlink(fileData.tempFilePath);
+
   return result.secure_url;
 };
 

@@ -7,6 +7,7 @@ import uploadImage from "../../utils/uploadImage.js";
 const uploadPhoto = async (req, res, next) => {
   try {
     const userId = req.userId;
+
     const files = req.files;
     if (!files) throw resError(400, "Photo is required to upload!");
 
@@ -20,7 +21,7 @@ const uploadPhoto = async (req, res, next) => {
 
     if (profilePhoto) {
       editedUser.profilePhoto = await uploadImage(
-        user.profilePhoto,
+        user,
         profilePhoto,
         "kkhay/users/profilephoto"
       );
@@ -33,9 +34,7 @@ const uploadPhoto = async (req, res, next) => {
         "kkhay/users/coverphoto"
       );
     }
-
     await UserDB.findByIdAndUpdate(user._id, editedUser);
-
     const updatedUser = await UserDB.findById(user._id).select("-password");
     const accessToken = Token.makeAccessToken({
       id: updatedUser._id.toString(),
