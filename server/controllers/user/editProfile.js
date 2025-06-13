@@ -46,7 +46,7 @@ const editProfile = async (req, res, next) => {
 
     const user = await UserDB.findById(currentUser._id).select("-password");
 
-    resJson(res, 200, "Success edited currentUser profile", user);
+    resJson(res, 200, "Success edited currentUser profile", { user });
   } catch (error) {
     next(error);
   }
