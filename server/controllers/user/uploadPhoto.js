@@ -11,8 +11,8 @@ const uploadPhoto = async (req, res, next) => {
     const files = req.files;
     if (!files) throw resError(400, "Photo is required to upload!");
 
-    const profilePhoto = files.profilePhoto;
     const coverPhoto = files.coverPhoto;
+    const profilePhoto = files.profilePhoto;
 
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
@@ -26,14 +26,14 @@ const uploadPhoto = async (req, res, next) => {
         "kkhay/users/profilephoto"
       );
     }
-
     if (coverPhoto) {
       editedUser.coverPhoto = await uploadImage(
-        user.coverPhoto,
+        user,
         coverPhoto,
         "kkhay/users/coverphoto"
       );
     }
+
     await UserDB.findByIdAndUpdate(user._id, editedUser);
     const updatedUser = await UserDB.findById(user._id).select("-password");
     const accessToken = Token.makeAccessToken({
