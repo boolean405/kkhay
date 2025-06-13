@@ -1,5 +1,5 @@
-import cloudinary from "../config/cloudinary";
-import getPublicIdFromUrl from "./getPublicIdFromUrl";
+import cloudinary from "../config/cloudinary.js";
+import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 
 const uploadImage = async (oldUrl, fileData, folder) => {
   // Remove old image if exists and is hosted on Cloudinary

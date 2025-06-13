@@ -1,4 +1,4 @@
-import UserDB from "../../models/currentUser.js";
+import UserDB from "../../models/user.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import uploadImage from "../../utils/uploadImage.js";
