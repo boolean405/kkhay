@@ -98,7 +98,7 @@ router.patch(
 router.patch(
   "/edit-profile",
   validateToken(),
-  validateBody(UserSchema.editProfile),
+  // validateBody(UserSchema.editProfile),
   editProfile
 );
 

@@ -75,8 +75,6 @@ export const UserSchema = {
       .pattern(/^[a-z0-9]+$/)
       .min(5)
       .max(20),
-    profilePhoto: Joi.string(),
-    coverPhoto: Joi.string(),
   }),
 
   existEmail: Joi.object({

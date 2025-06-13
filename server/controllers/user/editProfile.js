@@ -7,15 +7,16 @@ const editProfile = async (req, res, next) => {
   try {
     const userId = req.userId;
     const body = req.body;
-    if (!body) throw resError(400, "Need to edit something!");
+    const files = req.files;
+    if (!body && !files) throw resError(400, "Need to edit something!");
 
     const currentUser = await UserDB.findById(userId);
     if (!currentUser) throw resError(404, "User not found!");
 
     const name = body.name;
     const username = body.username;
-    const profilePhoto = body.profilePhoto;
-    const coverPhoto = body.coverPhoto;
+    const profilePhoto = files.profilePhoto;
+    const coverPhoto = files.coverPhoto;
 
     if (username && username !== currentUser.username)
       if (await UserDB.findOne({ username }))
