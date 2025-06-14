@@ -20,7 +20,7 @@ const uploadImage = async (user, type, image, folder) => {
     }
 
     // Custom file name
-    const public_id = `${user.username}_${Date.now()}`;
+    const public_id = `${user.username}_${type}_${Date.now()}`;
 
     // Upload new image
     const result = await cloudinary.uploader.upload(image, {
