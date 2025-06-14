@@ -21,6 +21,7 @@ import forgotPassword from "../controllers/user/forgotPassword.js";
 import resetPassword from "../controllers/user/resetPassword.js";
 import changeNames from "../controllers/user/changeNames.js";
 import registerVerify from "../controllers/user/registerVerify.js";
+import deletePhoto from "../controllers/user/deltePhoto.js";
 import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
 import {
@@ -93,6 +94,13 @@ router.patch(
   validateToken(),
   validateBody(UserSchema.uploadPhoto),
   uploadPhoto
+);
+
+router.patch(
+  "/delete-photo",
+  validateToken(),
+  validateBody(UserSchema.deletePhoto),
+  deletePhoto
 );
 
 router.patch(

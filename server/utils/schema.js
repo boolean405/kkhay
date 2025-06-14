@@ -66,6 +66,11 @@ export const UserSchema = {
     coverPhoto: Joi.string(),
   }),
 
+  deletePhoto: Joi.object({
+    profilePhoto: Joi.string(),
+    coverPhoto: Joi.string(),
+  }),
+
   changeNames: Joi.object({
     name: Joi.string()
       .pattern(/^[A-Za-z ]+$/)

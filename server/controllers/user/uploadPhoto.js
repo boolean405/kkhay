@@ -16,10 +16,10 @@ const uploadPhoto = async (req, res, next) => {
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
 
-    const editedUser = {};
+    const editedPhoto = {};
 
     if (profilePhoto) {
-      editedUser.profilePhoto = await uploadImage(
+      editedPhoto.profilePhoto = await uploadImage(
         user,
         "profilePhoto",
         profilePhoto,
@@ -27,7 +27,7 @@ const uploadPhoto = async (req, res, next) => {
       );
     }
     if (coverPhoto) {
-      editedUser.coverPhoto = await uploadImage(
+      editedPhoto.coverPhoto = await uploadImage(
         user,
         "coverPhoto",
         coverPhoto,
@@ -35,7 +35,7 @@ const uploadPhoto = async (req, res, next) => {
       );
     }
 
-    const updatedUser = await UserDB.findByIdAndUpdate(user._id, editedUser, {
+    const updatedUser = await UserDB.findByIdAndUpdate(user._id, editedPhoto, {
       new: true,
       select: "-password",
     });
@@ -73,24 +73,24 @@ export default uploadPhoto;
 //     const user = await UserDB.findById(userId);
 //     if (!user) throw resError(404, "User not found!");
 
-//     const editedUser = {};
+//     const editedPhoto = {};
 
 //     if (profilePhoto) {
-//       editedUser.profilePhoto = await uploadImage(
+//       editedPhoto.profilePhoto = await uploadImage(
 //         user,
 //         profilePhoto,
 //         "kkhay/users/profilephoto"
 //       );
 //     }
 //     if (coverPhoto) {
-//       editedUser.coverPhoto = await uploadImage(
+//       editedPhoto.coverPhoto = await uploadImage(
 //         user,
 //         coverPhoto,
 //         "kkhay/users/coverphoto"
 //       );
 //     }
 
-//     await UserDB.findByIdAndUpdate(user._id, editedUser);
+//     await UserDB.findByIdAndUpdate(user._id, editedPhoto);
 //     const updatedUser = await UserDB.findById(user._id).select("-password");
 //     const accessToken = Token.makeAccessToken({
 //       id: updatedUser._id.toString(),
