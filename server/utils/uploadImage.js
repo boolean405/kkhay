@@ -3,32 +3,38 @@ import cloudinary from "../config/cloudinary.js";
 import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 
 const uploadImage = async (user, type, image, folder) => {
-  // Validate type
-  if (type !== "profilePhoto" && type !== "coverPhoto") {
-    throw resError(400, "Only profilePhoto and coverPhoto are allowed!");
+  try {
+    // Validate type
+    if (type !== "profilePhoto" && type !== "coverPhoto") {
+      throw resError(400, "Only profilePhoto and coverPhoto are allowed!");
+    }
+
+    // Get the current image URL dynamically
+    const oldImageUrl = user[type];
+
+    // Remove old image if it's hosted on Cloudinary
+    if (oldImageUrl && oldImageUrl.includes("cloudinary")) {
+      const publicId = getPublicIdFromUrl(oldImageUrl);
+      if (!publicId) throw resError(400, "Failed to parse public ID!");
+      await cloudinary.uploader.destroy(publicId);
+    }
+
+    // Custom file name
+    const public_id = `${user.username}_${Date.now()}`;
+
+    // Upload new image
+    const result = await cloudinary.uploader.upload(image, {
+      folder,
+      public_id,
+    });
+    console.log(result.secure_url);
+    if (!result) throw resError(400, "Cloudinary upload failed!");
+
+    return result.secure_url;
+  } catch (err) {
+    console.error("Cloudinary upload error:", err);
+    throw resError(500, "Failed to upload image to Cloudinary");
   }
-
-  // Get the current image URL dynamically
-  const oldImageUrl = user[type];
-
-  // Remove old image if it's hosted on Cloudinary
-  if (oldImageUrl && oldImageUrl.includes("cloudinary")) {
-    const publicId = getPublicIdFromUrl(oldImageUrl);
-    if (!publicId) throw resError(400, "Failed to parse public ID!");
-    await cloudinary.uploader.destroy(publicId);
-  }
-
-  // Custom file name
-  const public_id = `${user.username}_${Date.now()}`;
-
-  // Upload new image
-  const result = await cloudinary.uploader.upload(image, {
-    folder,
-    public_id,
-  });
-  if (!result) throw resError(400, "Cloudinary upload failed!");
-
-  return result.secure_url;
 };
 
 export default uploadImage;
