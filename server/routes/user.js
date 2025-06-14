@@ -91,7 +91,7 @@ router.patch(
 router.patch(
   "/upload-photo",
   validateToken(),
-  // validateBody(UserSchema.uploadPhoto),
+  validateBody(UserSchema.uploadPhoto),
   uploadPhoto
 );
 

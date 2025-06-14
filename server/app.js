@@ -1,7 +1,6 @@
 import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
-import fileUpload from "express-fileupload";
 
 import corsOptions from "./config/corsOptions.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
@@ -24,7 +23,6 @@ app.use(credentials); // Set Access-Control-Allow-Credentials header
 app.use(cors(corsOptions)); // Must follow `credentials`
 app.use(express.json()); // Parse JSON body
 app.use(cookieParser()); // Parse cookies
-app.use(fileUpload({ useTempFiles: true })); // File uploads
 
 // API routes
 app.use("/api/user", userRoute);

@@ -43,7 +43,6 @@ const register = async (req, res, next) => {
       path.join(__dirname, "../../assets/html/verifySignup.html"),
       "utf8"
     );
-    console.log(htmlFile);
 
     htmlFile = htmlFile.replace("{verificationCode}", code);
     // htmlFile = htmlFile.replace(
