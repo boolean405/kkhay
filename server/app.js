@@ -21,7 +21,7 @@ app.use(reqMethodLog); // Log incoming requests (1st)
 app.use(rateLimiter); // Rate limiting early (before body parsing)
 app.use(credentials); // Set Access-Control-Allow-Credentials header
 app.use(cors(corsOptions)); // Must follow `credentials`
-app.use(express.json()); // Parse JSON body
+app.use(express.json( { limit: "50mb"})); // Parse JSON body
 app.use(cookieParser()); // Parse cookies
 
 // API routes
