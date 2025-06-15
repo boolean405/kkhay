@@ -35,10 +35,8 @@ const uploadPhoto = async (req, res, next) => {
       );
     }
 
-    const updatedUser = await UserDB.findByIdAndUpdate(user._id, editedPhoto, {
-      new: true,
-      select: "-password",
-    });
+    await UserDB.findByIdAndUpdate(user._id, editedPhoto);
+    const updatedUser = await UserDB.findById(user._id).select("-password");
 
     const accessToken = Token.makeAccessToken({
       id: updatedUser._id.toString(),

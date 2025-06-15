@@ -18,20 +18,18 @@ const deletePhoto = async (req, res, next) => {
 
     const editedPhoto = {};
 
-    if (profilePhoto) {
+    if (profilePhoto && profilePhoto === user.profilePhoto) {
       const response = await deletImage(user, "profilePhoto");
       if (response) editedPhoto.profilePhoto = "";
     }
 
-    if (coverPhoto) {
+    if (coverPhoto && coverPhoto === user.coverPhoto) {
       const response = await deletImage(user, "coverPhoto");
       if (response) editedPhoto.coverPhoto = "";
     }
 
-    const updatedUser = await UserDB.findByIdAndUpdate(user._id, editedPhoto, {
-      new: true,
-      select: "-password",
-    });
+    await UserDB.findByIdAndUpdate(user._id, editedPhoto);
+    const updatedUser = await UserDB.findById(user._id).select("-password");
 
     const accessToken = Token.makeAccessToken({
       id: updatedUser._id.toString(),
