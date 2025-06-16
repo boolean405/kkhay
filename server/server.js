@@ -27,4 +27,4 @@ mongoose.connection.once("open", () => {
 
 // Setup socket
 setupSocket(io);
- 
+console.log('here');
