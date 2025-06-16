@@ -27,7 +27,6 @@ const uploadImage = async (user, type, image, folder) => {
       folder,
       public_id,
     });
-    console.log(result.secure_url);
     if (!result) throw resError(400, "Cloudinary upload failed!");
 
     return result.secure_url;

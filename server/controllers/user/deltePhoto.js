@@ -8,7 +8,7 @@ const deletePhoto = async (req, res, next) => {
   try {
     const userId = req.userId;
     const body = req.body;
-    if (!body) throw resError(400, "Photo is required to upload!");
+    if (!body) throw resError(400, "Photo is required to delete!");
 
     const coverPhoto = body.coverPhoto;
     const profilePhoto = body.profilePhoto;
