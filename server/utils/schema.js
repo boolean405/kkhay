@@ -137,6 +137,13 @@ export const ChatSchema = {
     name: Joi.string().min(1).max(20).required(),
     chatId: Joi.string().length(24).hex().required(),
   }),
+  addUserToGroup: Joi.object({
+    chatId: Joi.string().length(24).hex().required(),
+    userIds: Joi.array()
+      .items(Joi.string().length(24).hex().required())
+      .min(1)
+      .required(),
+  }),
 };
 
 export const MessageSchema = {

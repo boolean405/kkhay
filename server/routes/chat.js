@@ -7,6 +7,7 @@ import { validateBody, validateToken } from "../utils/validator.js";
 import getAllChats from "../controllers/chat/getAllChats.js";
 import createGroup from "../controllers/chat/createGroup.js";
 import changeName from "../controllers/chat/changeName.js";
+import addUserToGroup from "../controllers/chat/addUserToGroup.js";
 
 router
   .route("/")
@@ -26,13 +27,12 @@ router.patch(
   validateBody(ChatSchema.changeName),
   changeName
 );
-// router
-//   .route("/group/add")
-//   .patch(
-//     validateToken(),
-//     validateBody(ChatSchema.addUserToGroup),
-//     addUserToGroup
-//   );
+router.patch(
+  "/add-user-to-group",
+  validateToken(),
+  validateBody(ChatSchema.addUserToGroup),
+  addUserToGroup
+);
 // router
 //   .route("/group/remove")
 //   .patch(

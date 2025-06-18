@@ -3,13 +3,17 @@ import ChatDB from "../../models/chat.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 
-const createGroup = async (req, res, next) => {
+const addUserToGroup = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { userIds, name } = req.body;
+    const { chatId, userIds } = req.body;
 
-    if (!(await UserDB.exists({ _id: userId })))
-      throw resError(404, "User not found!");
+    const [userExists, chatExists] = await Promise.all([
+      UserDB.exists({ _id: userId }),
+      ChatDB.exists({ _id: chatId }),
+    ]);
+    if (!userExists) throw resError(404, "User not found!");
+    if (!chatExists) throw resError(404, "Chat not found!");
 
     // Parse and validate userIds
     let arrayUserIds = Array.isArray(userIds) ? userIds : JSON.parse(userIds);
@@ -20,21 +24,20 @@ const createGroup = async (req, res, next) => {
     if (count !== arrayUserIds.length)
       throw resError(404, "One or more users not found.");
 
-    const newGroupChat = await ChatDB.create({
-      name,
-      users: arrayUserIds,
-      isGroupChat: true,
-      groupAdmin: userId,
-    });
+    const updatedChat = await ChatDB.findByIdAndUpdate(
+      chatId,
+      { $addToSet: { users: { $each: arrayUserIds } } },
 
-    const groupChat = await ChatDB.findById(newGroupChat._id).populate({
+      { new: true }
+    ).populate({
       path: "users groupAdmin",
       select: "-password",
     });
-    resJson(res, 200, "Success create group chat.", groupChat);
+
+    resJson(res, 200, "Success add user to group chat.", updatedChat);
   } catch (error) {
     next(error);
   }
 };
 
-export default createGroup;
+export default addUserToGroup;

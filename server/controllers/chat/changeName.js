@@ -1,13 +1,20 @@
+import UserDB from "../../models/user.js";
 import ChatDB from "../../models/chat.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 
 const changeName = async (req, res, next) => {
   try {
+    const userId = req.userId;
     const { name, chatId } = req.body;
 
-    if (!(await ChatDB.exists({ _id: chatId })))
-      throw resError(404, "Chat not found!");
+    const [userExists, chatExists] = await Promise.all([
+      UserDB.exists({ _id: userId }),
+      ChatDB.exists({ _id: chatId }),
+    ]);
+
+    if (!userExists) throw resError(404, "User not found!");
+    if (!chatExists) throw resError(404, "Chat not found!");
 
     const updatedChat = await ChatDB.findByIdAndUpdate(
       chatId,
