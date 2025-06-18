@@ -8,7 +8,7 @@ const getAllChats = async (req, res, next) => {
     const userId = req.userId;
 
     if (!(await UserDB.exists({ _id: userId })))
-      throw resError(404, "User not found!");
+      throw resError(404, "Authenticated user not found!");
 
     const chats = await ChatDB.find({
       users: userId,

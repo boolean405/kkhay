@@ -144,6 +144,10 @@ export const ChatSchema = {
       .min(1)
       .required(),
   }),
+  removeUserFromGroup: Joi.object({
+    groupId: Joi.string().length(24).hex().required(),
+    userId: Joi.string().length(24).hex().required(),
+  }),
 };
 
 export const MessageSchema = {

@@ -9,7 +9,7 @@ const createGroup = async (req, res, next) => {
     const { userIds, name } = req.body;
 
     if (!(await UserDB.exists({ _id: userId })))
-      throw resError(404, "User not found!");
+      throw resError(404, "Authenticated user not found!");
 
     // Parse and validate userIds
     let arrayUserIds = Array.isArray(userIds) ? userIds : JSON.parse(userIds);

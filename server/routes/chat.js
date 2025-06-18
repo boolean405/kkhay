@@ -8,6 +8,7 @@ import getAllChats from "../controllers/chat/getAllChats.js";
 import createGroup from "../controllers/chat/createGroup.js";
 import changeName from "../controllers/chat/changeName.js";
 import addUserToGroup from "../controllers/chat/addUserToGroup.js";
+import removeUserFromGroup from "../controllers/chat/removeUserFromGroup.js";
 
 router
   .route("/")
@@ -33,12 +34,11 @@ router.patch(
   validateBody(ChatSchema.addUserToGroup),
   addUserToGroup
 );
-// router
-//   .route("/group/remove")
-//   .patch(
-//     validateToken(),
-//     validateBody(ChatSchema.removeUserFromGroup),
-//     removeUserFromGroup
-//   );
+router.patch(
+  "/remove-user-from-group",
+  validateToken(),
+  validateBody(ChatSchema.removeUserFromGroup),
+  removeUserFromGroup
+);
 
 export default router;

@@ -13,7 +13,7 @@ const changeName = async (req, res, next) => {
       ChatDB.exists({ _id: chatId }),
     ]);
 
-    if (!userExists) throw resError(404, "User not found!");
+    if (!userExists) throw resError(404, "Authenticated user not found!");
     if (!chatExists) throw resError(404, "Chat not found!");
 
     const updatedChat = await ChatDB.findByIdAndUpdate(

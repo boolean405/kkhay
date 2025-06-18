@@ -13,7 +13,7 @@ const createOrOpen = async (req, res, next) => {
       UserDB.findById(receiverId),
     ]);
 
-    if (!userExists) throw resError(404, "User not found!");
+    if (!userExists) throw resError(404, "Authenticated user not found!");
     if (!receiver) throw resError(404, "Receiver not found!");
 
     const isChat = await ChatDB.findOne({

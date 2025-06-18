@@ -12,7 +12,7 @@ const addUserToGroup = async (req, res, next) => {
       UserDB.exists({ _id: userId }),
       ChatDB.exists({ _id: groupId }),
     ]);
-    if (!userExists) throw resError(404, "User not found!");
+    if (!userExists) throw resError(404, "Authenticated user not found!");
     if (!chatExists) throw resError(404, "Chat not found!");
 
     // Parse and validate userIds
