@@ -126,6 +126,13 @@ export const ChatSchema = {
   createOrOpen: Joi.object({
     receiverId: Joi.string().length(24).hex().required(),
   }),
+  createGroup: Joi.object({
+    userIds: Joi.array()
+      .items(Joi.string().length(24).hex().required())
+      .min(1)
+      .required(),
+    name: Joi.string().min(1).max(20).required(),
+  }),
 };
 
 export const MessageSchema = {

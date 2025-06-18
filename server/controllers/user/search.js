@@ -5,13 +5,13 @@ import resJson from "../../utils/resJson.js";
 const search = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const keyword = req.query.search;
+    const search = req.query.search;
 
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
-    if (!keyword) throw resError(400, "Need to search something!");
+    if (!search) throw resError(400, "Need to search something!");
 
-    keyword
+    const keyword = search
       ? {
           $or: [
             { name: { $regex: req.query.search, $options: "i" } },
@@ -21,7 +21,7 @@ const search = async (req, res, next) => {
         }
       : {};
     const users = await UserDB.find(keyword)
-      .find({ _id: { $ne: req.user._id } })
+      .find({ _id: { $ne: userId } })
       .select("-password");
     resJson(res, 200, "Success search users.", { users });
   } catch (error) {

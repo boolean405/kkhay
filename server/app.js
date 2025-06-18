@@ -28,7 +28,7 @@ app.use(cookieParser()); // Parse cookies
 // API routes
 app.use("/api/user", userRoute);
 app.use("/api/public", publicRoute);
-app.use("api/chat", chatRoute);
+app.use("/api/chat", chatRoute);
 app.use("/image", imageRoute);
 
 // Error handling

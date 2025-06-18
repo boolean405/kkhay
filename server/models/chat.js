@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const chatSchema = new Schema(
   {
-    name: { type: String, trim: true },
+    name: { type: String, trim: true, required: true },
     isGroupChat: { type: Boolean, default: false },
     users: [{ type: Schema.Types.ObjectId, ref: "user" }],
     latestMessage: {
@@ -19,5 +19,8 @@ const chatSchema = new Schema(
     timestamps: true,
   }
 );
+
+chatSchema.index({ name: 1 });
+chatSchema.index({ groupAdmin: 1 });
 
 export default mongoose.model("chat", chatSchema);
