@@ -6,6 +6,7 @@ import createOrOpen from "../controllers/chat/createOrOpen.js";
 import { validateBody, validateToken } from "../utils/validator.js";
 import getAllChats from "../controllers/chat/getAllChats.js";
 import createGroup from "../controllers/chat/createGroup.js";
+import changeName from "../controllers/chat/changeName.js";
 
 router
   .route("/")
@@ -19,9 +20,12 @@ router.post(
   validateBody(ChatSchema.createGroup),
   createGroup
 );
-// router
-//   .route("/group/rename")
-//   .patch(validateToken(), validateBody(ChatSchema.renameGroup), renameGroup);
+router.patch(
+  "/change-name",
+  validateToken(),
+  validateBody(ChatSchema.changeName),
+  changeName
+);
 // router
 //   .route("/group/add")
 //   .patch(
