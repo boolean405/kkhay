@@ -138,7 +138,7 @@ export const ChatSchema = {
     chatId: Joi.string().length(24).hex().required(),
   }),
   addUserToGroup: Joi.object({
-    chatId: Joi.string().length(24).hex().required(),
+    groupId: Joi.string().length(24).hex().required(),
     userIds: Joi.array()
       .items(Joi.string().length(24).hex().required())
       .min(1)

@@ -6,11 +6,11 @@ import resError from "../../utils/resError.js";
 const addUserToGroup = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { chatId, userIds } = req.body;
+    const { groupId, userIds } = req.body;
 
     const [userExists, chatExists] = await Promise.all([
       UserDB.exists({ _id: userId }),
-      ChatDB.exists({ _id: chatId }),
+      ChatDB.exists({ _id: groupId }),
     ]);
     if (!userExists) throw resError(404, "User not found!");
     if (!chatExists) throw resError(404, "Chat not found!");
@@ -25,7 +25,7 @@ const addUserToGroup = async (req, res, next) => {
       throw resError(404, "One or more users not found.");
 
     const updatedChat = await ChatDB.findByIdAndUpdate(
-      chatId,
+      groupId,
       { $addToSet: { users: { $each: arrayUserIds } } },
 
       { new: true }
