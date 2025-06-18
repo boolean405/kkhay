@@ -122,6 +122,12 @@ export const UserSchema = {
   }),
 };
 
+export const ChatSchema = {
+  createOrOpen: Joi.object({
+    receiverId: Joi.string().length(24).hex().required(),
+  }),
+};
+
 export const MessageSchema = {
   message: Joi.object({
     sender: Joi.string().length(24).hex().required(),

@@ -43,7 +43,6 @@ const uploadPicture = async (req, res, next) => {
 
     resJson(res, 200, "Success upload picture", updatedUser);
   } catch (error) {
-    error.status = error.status;
     next(error);
   }
 };
