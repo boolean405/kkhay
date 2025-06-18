@@ -24,6 +24,7 @@ const userSchema = new Schema(
     },
     profilePhoto: {
       type: String,
+      default: `${process.env.SERVER_URL}/image/profile-photo`,
     },
     coverPhoto: {
       type: String,

@@ -117,6 +117,9 @@ export const UserSchema = {
       .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
   }),
+  search: Joi.object({
+    search: Joi.string().required(),
+  }),
 };
 
 export const MessageSchema = {

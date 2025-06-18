@@ -14,4 +14,8 @@ router.get("/verified", (req, res) => {
   res.sendFile(path.join(__dirname, "../assets/images/verified.png"));
 });
 
+router.get("/profile-photo", (req, res) => {
+  res.sendFile(path.join(__dirname, "../assets/images/profile_photo.jpg"));
+});
+
 export default router;

@@ -22,6 +22,7 @@ import resetPassword from "../controllers/user/resetPassword.js";
 import changeNames from "../controllers/user/changeNames.js";
 import registerVerify from "../controllers/user/registerVerify.js";
 import deletePhoto from "../controllers/user/deltePhoto.js";
+import search from "../controllers/user/search.js";
 import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
 import {
@@ -126,6 +127,13 @@ router.patch(
   "/reset-password",
   validateBody(UserSchema.resetPassword),
   resetPassword
+);
+
+router.get(
+  "/search",
+  validateToken(),
+  validateQuery(UserSchema.search),
+  search
 );
 
 export default router;
