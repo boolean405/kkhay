@@ -8,13 +8,13 @@ const createOrOpen = async (req, res, next) => {
     const userId = req.userId;
     const receiverId = req.body.receiverId;
 
-    const [userExists, receiver] = await Promise.all([
+    const [userExists, dbReceiver] = await Promise.all([
       UserDB.exists({ _id: userId }),
       UserDB.findById(receiverId),
     ]);
 
     if (!userExists) throw resError(404, "Authenticated user not found!");
-    if (!receiver) throw resError(404, "Receiver not found!");
+    if (!dbReceiver) throw resError(404, "Receiver not found!");
 
     const isChat = await ChatDB.findOne({
       isGroupChat: false,
@@ -35,8 +35,9 @@ const createOrOpen = async (req, res, next) => {
     if (isChat) return resJson(res, 200, "Success open pm chat.", isChat);
 
     const newChat = {
-      name: receiver.name,
+      name: dbReceiver.name,
       users: [userId, receiverId],
+      avatar: dbReceiver.profilePhoto && dbReceiver.profilePhoto,
     };
 
     const dbChat = await ChatDB.create(newChat);
