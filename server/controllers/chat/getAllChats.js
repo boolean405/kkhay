@@ -12,6 +12,14 @@ const getAllChats = async (req, res, next) => {
 
     const chats = await ChatDB.find({
       users: userId,
+      // latestMessage: { $ne: null },
+      deletedInfo: {
+        $not: {
+          $elemMatch: {
+            user: userId,
+          },
+        },
+      },
     })
       .populate({
         path: "users groupAdmins",

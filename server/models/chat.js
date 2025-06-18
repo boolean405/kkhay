@@ -6,6 +6,12 @@ const chatSchema = new Schema(
     name: { type: String, trim: true, required: true },
     isGroupChat: { type: Boolean, default: false },
     users: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    deletedInfo: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: "user" },
+        deletedAt: { type: Date },
+      },
+    ],
     latestMessage: {
       type: Schema.Types.ObjectId,
       ref: "message",

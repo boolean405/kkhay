@@ -155,6 +155,12 @@ export const ChatSchema = {
     groupId: Joi.string().length(24).hex().required(),
     userId: Joi.string().length(24).hex().required(),
   }),
+  deleteChat: Joi.object({
+    chatId: Joi.string().length(24).hex().required(),
+  }),
+  leaveGroup: Joi.object({
+    groupId: Joi.string().length(24).hex().required(),
+  }),
 };
 
 export const MessageSchema = {
