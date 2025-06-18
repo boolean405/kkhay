@@ -24,11 +24,11 @@ const createGroup = async (req, res, next) => {
       name,
       users: arrayUserIds,
       isGroupChat: true,
-      groupAdmin: userId,
+      groupAdmins: userId,
     });
 
     const groupChat = await ChatDB.findById(newGroupChat._id).populate({
-      path: "users groupAdmin",
+      path: "users groupAdmins",
       select: "-password",
     });
     resJson(res, 200, "Success create group chat.", groupChat);

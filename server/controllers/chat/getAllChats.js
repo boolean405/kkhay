@@ -14,7 +14,7 @@ const getAllChats = async (req, res, next) => {
       users: userId,
     })
       .populate({
-        path: "users groupAdmin",
+        path: "users groupAdmins",
         select: "-password",
       })
       .populate({

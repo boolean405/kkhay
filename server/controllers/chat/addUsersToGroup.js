@@ -3,21 +3,30 @@ import ChatDB from "../../models/chat.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 
-const addUserToGroup = async (req, res, next) => {
+const addUsersToGroup = async (req, res, next) => {
   try {
     const userId = req.userId;
     const { groupId, userIds } = req.body;
 
-    const [userExists, chatExists] = await Promise.all([
+    const [userExists, dbChat] = await Promise.all([
       UserDB.exists({ _id: userId }),
-      ChatDB.exists({ _id: groupId }),
+      ChatDB.findById(groupId),
     ]);
     if (!userExists) throw resError(404, "Authenticated user not found!");
-    if (!chatExists) throw resError(404, "Chat not found!");
+    if (!dbChat) throw resError(404, "Chat not found!");
 
     // Parse and validate userIds
-    let arrayUserIds = Array.isArray(userIds) ? userIds : JSON.parse(userIds);
-    if (!arrayUserIds.includes(userId)) arrayUserIds.push(userId);
+    const arrayUserIds = Array.isArray(userIds) ? userIds : JSON.parse(userIds);
+
+    const alreadyUsers = arrayUserIds.filter((id) =>
+      dbChat.users.includes(id)
+    );
+    if (alreadyUsers.length) {
+      throw resError(
+        400,
+        `User with id ${arrayUserIds.join(", ")} already user!`
+      );
+    }
 
     // Check if all userIds exist in DB
     const count = await UserDB.countDocuments({ _id: { $in: arrayUserIds } });
@@ -30,7 +39,7 @@ const addUserToGroup = async (req, res, next) => {
 
       { new: true }
     ).populate({
-      path: "users groupAdmin",
+      path: "users groupAdmins",
       select: "-password",
     });
 
@@ -40,4 +49,4 @@ const addUserToGroup = async (req, res, next) => {
   }
 };
 
-export default addUserToGroup;
+export default addUsersToGroup;

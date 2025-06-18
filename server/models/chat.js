@@ -10,10 +10,12 @@ const chatSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "message",
     },
-    groupAdmin: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-    },
+    groupAdmins: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
   },
   {
     timestamps: true,

@@ -21,9 +21,9 @@ const removeUserFromGroup = async (req, res, next) => {
       throw resError(404, "Target user is not a member of this group chat.");
     if (!dbChat.users.includes(user))
       throw resError(403, "You are not a member of this group chat.");
-    if (!dbChat.groupAdmin.equals(user))
+    if (!dbChat.groupAdmins.includes(user))
       throw resError(403, "Only group admin can remove user!");
-    if (dbChat.groupAdmin.equals(userId))
+    if (dbChat.groupAdmins.includes(userId))
       throw resError(400, "Group admin cannot remove themselves.");
 
     const updatedChat = await ChatDB.findByIdAndUpdate(
@@ -31,7 +31,7 @@ const removeUserFromGroup = async (req, res, next) => {
       { $pull: { users: userId } },
       { new: true }
     ).populate({
-      path: "users groupAdmin",
+      path: "users groupAdmins",
       select: "-password",
     });
     resJson(res, 200, "Success remove user from group chat.", updatedChat);

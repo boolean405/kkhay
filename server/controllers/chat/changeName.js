@@ -21,7 +21,7 @@ const changeName = async (req, res, next) => {
       { name },
       { new: true }
     ).populate({
-      path: "users groupAdmin",
+      path: "users groupAdmins",
       select: "-password",
     });
 
