@@ -127,14 +127,14 @@ export const ChatSchema = {
     receiverId: Joi.string().length(24).hex().required(),
   }),
   createGroup: Joi.object({
-    name: Joi.string().min(1).max(20).required(),
+    name: Joi.string().min(1).max(30).required(),
     userIds: Joi.array()
       .items(Joi.string().length(24).hex().required())
       .min(1)
       .required(),
   }),
   changeName: Joi.object({
-    name: Joi.string().min(1).max(20).required(),
+    name: Joi.string().min(1).max(30).required(),
     chatId: Joi.string().length(24).hex().required(),
   }),
   addUsersToGroup: Joi.object({
