@@ -21,7 +21,7 @@ const createGroup = async (req, res, next) => {
       throw resError(404, "One or more users not found.");
 
     const newGroupChat = await ChatDB.create({
-      name,
+      name : `Group chat with ${name}`,
       users: arrayUserIds,
       isGroupChat: true,
       groupAdmins: userId,
