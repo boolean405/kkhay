@@ -118,7 +118,7 @@ export const UserSchema = {
       .required(),
   }),
   search: Joi.object({
-    search: Joi.string().required(),
+    keyword: Joi.string().required(),
   }),
 };
 
