@@ -37,7 +37,7 @@ const createOrOpen = async (req, res, next) => {
     const newChat = {
       name: dbReceiver.name,
       users: [userId, receiverId],
-      avatar: dbReceiver.profilePhoto && dbReceiver.profilePhoto,
+      photo: dbReceiver.profilePhoto && dbReceiver.profilePhoto,
     };
 
     const dbChat = await ChatDB.create(newChat);
