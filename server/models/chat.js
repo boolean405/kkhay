@@ -7,6 +7,7 @@ const chatSchema = new Schema(
     isGroupChat: { type: Boolean, default: false },
     users: [{ type: Schema.Types.ObjectId, ref: "user" }],
     avatar: { type: String },
+    unreadCount: { type: Number, default: 0 },
     deletedInfo: [
       {
         user: { type: Schema.Types.ObjectId, ref: "user" },
