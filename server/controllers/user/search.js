@@ -5,25 +5,25 @@ import resJson from "../../utils/resJson.js";
 const search = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const search = req.query.search;
+    const keyword = req.query.keyword;
 
     const user = await UserDB.findById(userId);
     if (!user) throw resError(404, "User not found!");
-    if (!search) throw resError(400, "Need to search something!");
+    if (!keyword) throw resError(400, "Need to keyword something!");
 
-    const keyword = search
+    const searchKeyword = keyword
       ? {
           $or: [
-            { name: { $regex: req.query.search, $options: "i" } },
-            { userName: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
+            { name: { $regex: req.query.keyword, $options: "i" } },
+            { userName: { $regex: req.query.keyword, $options: "i" } },
+            { email: { $regex: req.query.keyword, $options: "i" } },
           ],
         }
       : {};
-    const users = await UserDB.find(keyword)
+    const users = await UserDB.find(searchKeyword)
       .find({ _id: { $ne: userId } })
       .select("-password");
-    resJson(res, 200, "Success search users.", { users });
+    resJson(res, 200, "Success keyword users.", { users });
   } catch (error) {
     error.status = error.status;
     next(error);
