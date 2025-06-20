@@ -13,7 +13,7 @@ export default async function getPaginateUsers(req, res, next) {
     if (!(await UserDB.exists({ _id: userId })))
       throw resError(404, "Authenticated user not found!");
 
-    if (!pageNum || isNaN(pageNum))
+    if (isNaN(pageNum))
       throw resError(400, "Page number must be a valid number!");
 
     if (pageNum <= 0)
@@ -59,7 +59,13 @@ export default async function getPaginateUsers(req, res, next) {
       res,
       200,
       `${users.length} users returned from page ${pageNum} of ${totalPage}.`,
-      { totalUser, totalPage, currentPage: pageNum, users }
+      {
+        totalUser,
+        totalPage,
+        currentUser: users.length,
+        currentPage: pageNum,
+        users,
+      }
     );
   } catch (error) {
     next(error);

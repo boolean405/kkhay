@@ -114,12 +114,6 @@ export const UserSchema = {
     }),
   },
 
-  // query: {
-  //   keyword: Joi.object({
-  //     keyword: Joi.string()
-  //   }),
-  // },
-
   resetPassword: Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     newPassword: Joi.string()
@@ -132,6 +126,7 @@ export const ChatSchema = {
   createOrOpen: Joi.object({
     receiverId: Joi.string().length(24).hex().required(),
   }),
+
   createGroup: Joi.object({
     name: Joi.string().min(1).max(30).required(),
     userIds: Joi.array()
@@ -139,10 +134,12 @@ export const ChatSchema = {
       .min(1)
       .required(),
   }),
+
   changeName: Joi.object({
     name: Joi.string().min(1).max(30).required(),
     chatId: Joi.string().length(24).hex().required(),
   }),
+
   addUsersToGroup: Joi.object({
     groupId: Joi.string().length(24).hex().required(),
     userIds: Joi.array()
@@ -150,6 +147,7 @@ export const ChatSchema = {
       .min(1)
       .required(),
   }),
+
   addAdminsToGroup: Joi.object({
     groupId: Joi.string().length(24).hex().required(),
     userIds: Joi.array()
@@ -157,16 +155,25 @@ export const ChatSchema = {
       .min(1)
       .required(),
   }),
+
   removeUserFromGroup: Joi.object({
     groupId: Joi.string().length(24).hex().required(),
     userId: Joi.string().length(24).hex().required(),
   }),
+
   deleteChat: Joi.object({
     chatId: Joi.string().length(24).hex().required(),
   }),
+
   leaveGroup: Joi.object({
     groupId: Joi.string().length(24).hex().required(),
   }),
+
+  params: {
+    pageNum: Joi.object({
+      pageNum: Joi.string().min(1).required(),
+    }),
+  },
 };
 
 export const MessageSchema = {

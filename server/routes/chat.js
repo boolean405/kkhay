@@ -3,8 +3,11 @@ const router = express.Router();
 
 import { ChatSchema } from "../utils/schema.js";
 import createOrOpen from "../controllers/chat/createOrOpen.js";
-import { validateBody, validateToken } from "../utils/validator.js";
-import getAllChats from "../controllers/chat/getAllChats.js";
+import {
+  validateBody,
+  validateParam,
+  validateToken,
+} from "../utils/validator.js";
 import createGroup from "../controllers/chat/createGroup.js";
 import changeName from "../controllers/chat/changeName.js";
 import addUsersToGroup from "../controllers/chat/addUsersToGroup.js";
@@ -12,12 +15,21 @@ import removeUserFromGroup from "../controllers/chat/removeUserFromGroup.js";
 import addAdminsToGroup from "../controllers/chat/addAdminsToGroup.js";
 import leaveGroup from "../controllers/chat/leaveGroup.js";
 import deleteChat from "../controllers/chat/deleteChat.js";
+import getPaginateChats from "../controllers/chat/getPaginateChats.js";
 
-router
-  .route("/")
-  .all(validateToken())
-  .post(validateBody(ChatSchema.createOrOpen), createOrOpen)
-  .get(getAllChats);
+router.post(
+  "/",
+  validateToken(),
+  validateBody(ChatSchema.createOrOpen),
+  createOrOpen
+);
+
+router.get(
+  "/paginate/:pageNum",
+  validateToken(),
+  validateParam(ChatSchema.params.pageNum, "pageNum"),
+  getPaginateChats
+);
 
 router.post(
   "/create-group",
