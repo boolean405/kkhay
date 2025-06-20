@@ -23,6 +23,7 @@ import changeNames from "../controllers/user/changeNames.js";
 import registerVerify from "../controllers/user/registerVerify.js";
 import deletePhoto from "../controllers/user/deltePhoto.js";
 import search from "../controllers/user/search.js";
+import getPaginateUsers from "../controllers/user/getPaginateUsers.js";
 import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
 import {
@@ -45,6 +46,7 @@ router.post("/login", validateBody(UserSchema.login), login);
 router.post("/logout", validateCookie(), logout);
 router.post("/refresh", validateCookie(), refresh);
 router.get("/", validateToken(), getUser);
+
 router.post(
   "/register-verify",
   validateBody(UserSchema.registerVerify),
@@ -134,6 +136,13 @@ router.get(
   validateToken(),
   validateQuery(UserSchema.search),
   search
+);
+
+router.get(
+  "/paginate/:pageNum",
+  validateToken(),
+  validateParam(UserSchema.params.pageNum, "pageNum"),
+  getPaginateUsers
 );
 
 export default router;

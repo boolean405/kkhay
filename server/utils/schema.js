@@ -109,6 +109,9 @@ export const UserSchema = {
         .regex(/^[0-9a-fA-F]{24}$/)
         .required(),
     }),
+    pageNum: Joi.object({
+      pageNum: Joi.string().min(1).required(),
+    }),
   },
 
   resetPassword: Joi.object({
