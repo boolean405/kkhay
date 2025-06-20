@@ -22,7 +22,6 @@ import resetPassword from "../controllers/user/resetPassword.js";
 import changeNames from "../controllers/user/changeNames.js";
 import registerVerify from "../controllers/user/registerVerify.js";
 import deletePhoto from "../controllers/user/deltePhoto.js";
-import search from "../controllers/user/search.js";
 import getPaginateUsers from "../controllers/user/getPaginateUsers.js";
 import forgotPasswordVerify from "../controllers/user/forgotPasswrodVerify.js";
 
@@ -132,16 +131,10 @@ router.patch(
 );
 
 router.get(
-  "/search",
-  validateToken(),
-  validateQuery(UserSchema.search),
-  search
-);
-
-router.get(
   "/paginate/:pageNum",
   validateToken(),
   validateParam(UserSchema.params.pageNum, "pageNum"),
+  // validateQuery(UserSchema.query.keyword),
   getPaginateUsers
 );
 

@@ -29,6 +29,17 @@ const userSchema = new Schema(
     coverPhoto: {
       type: String,
     },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
+    birthday: {
+      type: Date,
+    },
     bio: {
       type: String,
     },

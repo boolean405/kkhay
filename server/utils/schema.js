@@ -114,14 +114,17 @@ export const UserSchema = {
     }),
   },
 
+  // query: {
+  //   keyword: Joi.object({
+  //     keyword: Joi.string()
+  //   }),
+  // },
+
   resetPassword: Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).lowercase().required(),
     newPassword: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+={}|:"<>?\\,-.]{8,30}$'))
       .required(),
-  }),
-  search: Joi.object({
-    keyword: Joi.string().required(),
   }),
 };
 
