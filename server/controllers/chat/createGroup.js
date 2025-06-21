@@ -2,6 +2,8 @@ import UserDB from "../../models/user.js";
 import ChatDB from "../../models/chat.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
+import createGroupPhoto from "../../utils/createGroupPhoto.js";
+import uploadGroupPhoto from "../../utils/uploadGroupPhoto.js";
 
 const createGroup = async (req, res, next) => {
   try {
@@ -15,13 +17,30 @@ const createGroup = async (req, res, next) => {
     let arrayUserIds = Array.isArray(userIds) ? userIds : JSON.parse(userIds);
     if (!arrayUserIds.includes(userId)) arrayUserIds.push(userId);
 
-    // Check if all userIds exist in DB
-    const count = await UserDB.countDocuments({ _id: { $in: arrayUserIds } });
-    if (count !== arrayUserIds.length)
+    const users = await UserDB.find({ _id: { $in: arrayUserIds } });
+    if (users.length !== arrayUserIds.length)
       throw resError(404, "One or more users not found.");
 
+    // Generate image
+    const imageUrls = users
+      .map((u) => u.profilePhoto)
+      .filter(Boolean)
+      .slice(0, 4);
+
+    let groupPhotoUrl = null;
+    if (imageUrls.length > 0) {
+      const base64Image = await createGroupPhoto(imageUrls);
+      groupPhotoUrl = await uploadGroupPhoto(
+        null,
+        "photo",
+        base64Image,
+        "kkhay/chats/group_photo"
+      );
+    }
+
     const newGroupChat = await ChatDB.create({
-      name : `Group chat with ${name}`,
+      name: `Group chat with ${name}`,
+      photo: groupPhotoUrl,
       users: arrayUserIds,
       isGroupChat: true,
       groupAdmins: userId,

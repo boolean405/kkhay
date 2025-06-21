@@ -23,7 +23,7 @@ const uploadPhoto = async (req, res, next) => {
         user,
         "profilePhoto",
         profilePhoto,
-        "kkhay/users/profilephoto"
+        "kkhay/users/profile_photo"
       );
     }
     if (coverPhoto) {
@@ -31,7 +31,7 @@ const uploadPhoto = async (req, res, next) => {
         user,
         "coverPhoto",
         coverPhoto,
-        "kkhay/users/coverphoto"
+        "kkhay/users/cover_photo"
       );
     }
 
