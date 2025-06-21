@@ -2,7 +2,7 @@ const baseOrigins = [
   "http://localhost:8081",
   "https://www.google.com",
   "https://google.com",
-  "https://youtube.com",
+  "https://www.youtube.com",
   "http://127.0.0.1:8081",
   "exp://192.168.1.1:8081",
 ];
