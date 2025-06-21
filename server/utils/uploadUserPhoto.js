@@ -2,17 +2,17 @@ import resError from "./resError.js";
 import cloudinary from "../config/cloudinary.js";
 import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 
-const uploadImage = async (user, type, image, folder) => {
+export default async function uploadUserPhoto(user, type, imageBase64, folder) {
   try {
     // Validate type
     if (type !== "profilePhoto" && type !== "coverPhoto") {
       throw resError(400, "Only profilePhoto and coverPhoto are allowed!");
     }
 
-    // Get the current image URL dynamically
+    // Get the current imageBase64 URL dynamically
     const oldImageUrl = user[type];
 
-    // Remove old image if it's hosted on Cloudinary
+    // Remove old imageBase64 if it's hosted on Cloudinary
     if (oldImageUrl && oldImageUrl.includes("cloudinary")) {
       const publicId = getPublicIdFromUrl(oldImageUrl);
       if (!publicId) throw resError(400, "Failed to parse public ID!");
@@ -22,8 +22,8 @@ const uploadImage = async (user, type, image, folder) => {
     // Custom file name
     const public_id = `${user.username}_${type}_${Date.now()}`;
 
-    // Upload new image
-    const result = await cloudinary.uploader.upload(image, {
+    // Upload new imageBase64
+    const result = await cloudinary.uploader.upload(imageBase64, {
       folder,
       public_id,
     });
@@ -31,18 +31,16 @@ const uploadImage = async (user, type, image, folder) => {
 
     return result.secure_url;
   } catch (err) {
-    throw resError(400, "Failed to upload image to Cloudinary");
+    throw resError(400, "Failed to upload imageBase64 to Cloudinary");
   }
-};
-
-export default uploadImage;
+}
 
 // import fs from "fs/promises";
 // import cloudinary from "../config/cloudinary.js";
 // import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 
 // const uploadImage = async (user, fileData, folder) => {
-//   // Remove old image if exists and is hosted on Cloudinary
+//   // Remove old imageBase64 if exists and is hosted on Cloudinary
 //   if (user.profilePhoto && user.profilePhoto.includes("cloudinary")) {
 //     const publicId = getPublicIdFromUrl(user.profilePhoto);
 //     if (!publicId) throw resError(400, "Failed to parse public ID!");
@@ -52,7 +50,7 @@ export default uploadImage;
 //   // Custom file name
 //   const public_id = `/${user.username}_${Date.now()}`;
 
-//   // Upload new image
+//   // Upload new imageBase64
 //   const result = await cloudinary.uploader.upload(fileData.tempFilePath, {
 //     folder,
 //     public_id,

@@ -2,7 +2,7 @@ import UserDB from "../../models/user.js";
 import ChatDB from "../../models/chat.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
-import createGroupPhoto from "../../utils/createGroupPhoto.js";
+import generateGroupPhoto from "../../utils/generateGroupPhoto.js";
 import uploadGroupPhoto from "../../utils/uploadGroupPhoto.js";
 
 const createGroup = async (req, res, next) => {
@@ -29,7 +29,7 @@ const createGroup = async (req, res, next) => {
 
     let groupPhotoUrl = null;
     if (imageUrls.length > 0) {
-      const base64Image = await createGroupPhoto(imageUrls);
+      const base64Image = await generateGroupPhoto(imageUrls);
       groupPhotoUrl = await uploadGroupPhoto(
         null,
         "photo",

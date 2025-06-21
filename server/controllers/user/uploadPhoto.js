@@ -2,7 +2,7 @@ import Token from "../../utils/token.js";
 import UserDB from "../../models/user.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
-import uploadImage from "../../utils/uploadImage.js";
+import uploadUserPhoto from "../../utils/uploadUserPhoto.js";
 
 const uploadPhoto = async (req, res, next) => {
   try {
@@ -19,7 +19,7 @@ const uploadPhoto = async (req, res, next) => {
     const editedPhoto = {};
 
     if (profilePhoto) {
-      editedPhoto.profilePhoto = await uploadImage(
+      editedPhoto.profilePhoto = await uploadUserPhoto(
         user,
         "profilePhoto",
         profilePhoto,
@@ -27,7 +27,7 @@ const uploadPhoto = async (req, res, next) => {
       );
     }
     if (coverPhoto) {
-      editedPhoto.coverPhoto = await uploadImage(
+      editedPhoto.coverPhoto = await uploadUserPhoto(
         user,
         "coverPhoto",
         coverPhoto,

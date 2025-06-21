@@ -5,17 +5,17 @@ import getPublicIdFromUrl from "./getPublicIdFromUrl.js";
 export default async function uploadGroupPhoto(
   group = null,
   type,
-  image,
+  imageBase64,
   folder
 ) {
   try {
     // Validate type
     if (type !== "photo") throw resError(400, "Only photo are allowed!");
 
-    // Get the current image URL dynamically
+    // Get the current imageBase64 URL dynamically
     const oldImageUrl = group ? group[type] : null;
 
-    // Remove old image if it's hosted on Cloudinary
+    // Remove old imageBase64 if it's hosted on Cloudinary
     if (oldImageUrl && oldImageUrl.includes("cloudinary")) {
       const publicId = getPublicIdFromUrl(oldImageUrl);
       if (!publicId) throw resError(400, "Failed to parse public ID!");
@@ -26,15 +26,15 @@ export default async function uploadGroupPhoto(
     const name = group ? group.name : "created_group";
     const public_id = `${name}_${type}_${Date.now()}`;
 
-    // Upload new image
-    const result = await cloudinary.uploader.upload(image, {
+    // Upload new imageBase64
+    const result = await cloudinary.uploader.upload(imageBase64, {
       folder,
       public_id,
     });
-    if (!result) throw resError(400, "Cloudinary upload failed!");
+    if (!result) throw resError(400, "Cloudinary group photo upload failed!");
 
     return result.secure_url;
   } catch (err) {
-    throw resError(400, "Failed to upload image to Cloudinary");
+    throw resError(400, "Failed to upload group photo to Cloudinary");
   }
 }
