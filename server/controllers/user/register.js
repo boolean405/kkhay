@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import UserDB from "../../models/user.js";
+import { APP_NAME } from "../../constants";
 import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
@@ -51,7 +52,7 @@ const register = async (req, res, next) => {
     // );
 
     // Send Email
-    await sendEmail(email, "[K Khay] Verify Your Account", htmlFile);
+    await sendEmail(email, `[${APP_NAME}] Verify Your Account`, htmlFile);
 
     resJson(res, 201, "Verification code email sent.");
   } catch (error) {

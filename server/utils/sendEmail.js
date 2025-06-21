@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { APP_NAME } from "../constants";
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -10,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async (to, subject, html) => {
   return transporter.sendMail({
-    from: `"K Khay" <${process.env.EMAIL_USER}>`,
+    from: `${APP_NAME} <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,

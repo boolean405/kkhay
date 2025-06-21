@@ -2,9 +2,10 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import UserDB from "../../models/user.js";
-import verifyDB from "../../models/verify.js";
 import Token from "../../utils/token.js";
+import UserDB from "../../models/user.js";
+import { APP_NAME } from "../../constants";
+import verifyDB from "../../models/verify.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
@@ -57,7 +58,11 @@ const registerVerify = async (req, res, next) => {
     //   `${process.env.SERVER_URL}/image/verified`
     // );
 
-    await sendEmail(user.email, "[K Khay] Successfully Verified", htmlFile);
+    await sendEmail(
+      user.email,
+      `[${APP_NAME}] Successfully Verified`,
+      htmlFile
+    );
 
     resCookie(req, res, "refreshToken", refreshToken);
     resJson(res, 201, "Success register.", { user, accessToken });

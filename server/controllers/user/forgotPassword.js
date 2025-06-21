@@ -3,10 +3,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import UserDB from "../../models/user.js";
+import { APP_NAME } from "../../constants";
 import resJson from "../../utils/resJson.js";
+import VerifyDB from "../../models/verify.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
-import VerifyDB from "../../models/verify.js";
 
 const forgotPassword = async (req, res, next) => {
   try {
@@ -45,7 +46,11 @@ const forgotPassword = async (req, res, next) => {
     // );
 
     // Send Email
-    await sendEmail(email, "[K Khay] Reset Password Verification", htmlFile);
+    await sendEmail(
+      email,
+      `[${APP_NAME}] Reset Password Verification`,
+      htmlFile
+    );
 
     resJson(res, 201, "Verification code email sent.");
   } catch (error) {

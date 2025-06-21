@@ -2,11 +2,12 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import Token from "../../utils/token.js";
 import UserDB from "../../models/user.js";
+import { APP_NAME } from "../../constants";
 import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
-import Token from "../../utils/token.js";
 import sendEmail from "../../utils/sendEmail.js";
 import resCookie from "../../utils/resCookie.js";
 
@@ -51,7 +52,7 @@ const resetPassword = async (req, res, next) => {
     const updatedUser = await UserDB.findById(user._id).select("-password");
     await sendEmail(
       updatedUser.email,
-      "[K Khay] Password Successfully Changed",
+      `[${APP_NAME}] Password Successfully Changed`,
       htmlFile
     );
 

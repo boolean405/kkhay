@@ -1,7 +1,7 @@
 {
-  "name": "kkhay-server",
+  "name": "chat-mal-server",
   "version": "1.0.0",
-  "description": "K Khay Server",
+  "description": "Chat Mal Server",
   "license": "ISC",
   "author": "Boolean",
   "type": "module",

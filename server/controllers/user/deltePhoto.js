@@ -4,7 +4,7 @@ import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import deletImage from "../../utils/deleteImage.js";
 
-const deletePhoto = async (req, res, next) => {
+export default async function deletePhoto(req, res, next) {
   try {
     const userId = req.userId;
     const body = req.body;
@@ -41,6 +41,4 @@ const deletePhoto = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-export default deletePhoto;
+}

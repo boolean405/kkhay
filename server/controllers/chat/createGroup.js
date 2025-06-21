@@ -5,7 +5,7 @@ import resError from "../../utils/resError.js";
 import generateGroupPhoto from "../../utils/generateGroupPhoto.js";
 import uploadGroupPhoto from "../../utils/uploadGroupPhoto.js";
 
-const createGroup = async (req, res, next) => {
+export default async function createGroup(req, res, next) {
   try {
     const userId = req.userId;
     const { userIds, name } = req.body;
@@ -34,7 +34,7 @@ const createGroup = async (req, res, next) => {
         null,
         "photo",
         base64Image,
-        "kkhay/chats/group_photo"
+        "chat-mal/chats/group-photo"
       );
     }
 
@@ -54,6 +54,4 @@ const createGroup = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-export default createGroup;
+}
