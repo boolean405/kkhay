@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { APP_NAME } from "../constants";
+import { APP_NAME } from "../constants/index.js";
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",

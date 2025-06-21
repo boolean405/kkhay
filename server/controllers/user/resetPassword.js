@@ -4,12 +4,12 @@ import { fileURLToPath } from "url";
 
 import Token from "../../utils/token.js";
 import UserDB from "../../models/user.js";
-import { APP_NAME } from "../../constants";
 import Encoder from "../../utils/encoder.js";
 import resJson from "../../utils/resJson.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
 import resCookie from "../../utils/resCookie.js";
+import { APP_NAME } from "../../constants/index.js";
 
 const resetPassword = async (req, res, next) => {
   try {

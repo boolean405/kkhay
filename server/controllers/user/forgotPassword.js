@@ -3,11 +3,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import UserDB from "../../models/user.js";
-import { APP_NAME } from "../../constants";
 import resJson from "../../utils/resJson.js";
 import VerifyDB from "../../models/verify.js";
 import resError from "../../utils/resError.js";
 import sendEmail from "../../utils/sendEmail.js";
+import { APP_NAME } from "../../constants/index.js";
 
 const forgotPassword = async (req, res, next) => {
   try {
